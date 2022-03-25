@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": 
+  {
+    "MoodTracker.API": 
+    {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7063;http://localhost:5063",
+      "environmentVariables": 
+      {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
