@@ -12,6 +12,13 @@ public class DataContext : DbContext
     {
     }
 
+    //Rules for entities
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
+
     #region ICreatedAt SaveChanges update
 
     private void UpdateTimestamps()
