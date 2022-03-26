@@ -13,7 +13,7 @@ const Btn = (props) => {
 const styles = StyleSheet.create({
   button: {
     //backgroundColor: Colors.primary,
-    backgroundColor:'#4287f5',
+    backgroundColor:'#11ab54',
     padding: 20,
     borderRadius:5,
     shadowColor: 'gray',
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   text:{
-    color: 'black',
+    color: 'white',
     fontWeight: '600',
     textAlign: 'center',
   }

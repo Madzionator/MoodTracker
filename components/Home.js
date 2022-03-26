@@ -15,7 +15,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#279db7',
+    backgroundColor: '#f5ba7f',
     alignItems: 'center',
     //justifyContent: 'center',
   },
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   titleText:{
+    color: '#ffffff',
     fontSize:28,
     fontWeight:900,
     marginTop:80
