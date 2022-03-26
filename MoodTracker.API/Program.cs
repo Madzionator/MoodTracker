@@ -29,6 +29,7 @@ else
 
 app.UseAuthorization();
 
+app.MapGet("/", ctx => ctx.Response.WriteAsync($"MoodTracker API {DateTime.Now}"));
 app.MapControllers();
 
 app.Run();
