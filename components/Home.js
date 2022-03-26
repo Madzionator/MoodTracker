@@ -15,7 +15,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5bd970',
+    backgroundColor: '#279db7',
     alignItems: 'center',
     //justifyContent: 'center',
   },
@@ -26,5 +26,8 @@ const styles = StyleSheet.create({
     fontSize:28,
     fontWeight:900,
     marginTop:80
-  }
+  },
+  footer:{
+    marginTop:580,
+  },
 });
