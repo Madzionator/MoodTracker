@@ -6,7 +6,7 @@ export default function Home() {
     <View style={styles.container}>
       <Text style={styles.titleText}>Mood Tracker</Text>
       <Btn title = 'Zaloguj' style={styles.btn} />
-      <Btn title = 'Zarejestruj' style={styles.btn}/>
+      <Btn title = 'Zarejestruj' style={styles.btn1}/>
       <Text style={styles.footer}>About</Text>
     </View>
   );
@@ -19,16 +19,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //justifyContent: 'center',
   },
+  btn1:{
+    marginTop:20
+  },
   btn:{
-    marginTop:10
+    marginTop:150,
+    fontHeight:37,
+    fontFamily:'cursive',
+
   },
   titleText:{
     color: '#ffffff',
-    fontSize:28,
-    fontWeight:900,
-    marginTop:80
+    fontSize:60,
+    fontWeight:'bold',
+    marginTop:120,
+    fontFamily:'cursive',
   },
   footer:{
-    marginTop:580,
+    marginTop:415,
   },
 });

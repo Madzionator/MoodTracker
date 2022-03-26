@@ -21,10 +21,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     width:'70%',
     marginTop: 25,
+    
   },
   text:{
     color: 'white',
-    fontWeight: '600',
+    fontSize:20,
+    fontWeight: '700',
+    fontFamily:'cursive',
     textAlign: 'center',
   }
 });
