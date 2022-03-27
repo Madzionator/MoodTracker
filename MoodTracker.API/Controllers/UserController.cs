@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoodTracker.API.DTO;
-using MoodTracker.API.Services;
+using MoodTracker.API.Interfaces;
 
 namespace MoodTracker.API.Controllers
 {
@@ -28,6 +29,13 @@ namespace MoodTracker.API.Controllers
         {
             _userService.CreateUser(userDto);
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("xd")]
+        public IActionResult Xd()
+        {
+            return Ok("super");
         }
     }
 }

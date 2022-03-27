@@ -2,24 +2,21 @@
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
+using MoodTracker.API.Interfaces;
 
 namespace MoodTracker.API.Services;
-
-public interface IUserService
-{
-    void CreateUser(UserDto dto);
-    string Login(UserLoginDto dto);
-}
 
 internal class UserService : IUserService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly IAuthManager _authManager;
 
-    public UserService(DataContext context, IMapper mapper)
+    public UserService(DataContext context, IMapper mapper, IAuthManager authManager)
     {
         _context = context;
         _mapper = mapper;
+        _authManager = authManager;
     }
 
     public void CreateUser(UserDto dto)
@@ -40,6 +37,8 @@ internal class UserService : IUserService
         //todo: hash password
         _context.Users.Add(user);
         _context.SaveChanges();
+
+        //todo: automatically login after registration
     }
 
     public string Login(UserLoginDto dto)
@@ -60,9 +59,7 @@ internal class UserService : IUserService
             return "";
         }
 
-        //todo: token
-        var token = "some token";
-
-        return token; // return token Access
+        var token = _authManager.CreateToken(user);
+        return token;
     }
 }
