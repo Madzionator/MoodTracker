@@ -13,7 +13,8 @@ namespace MoodTracker.API.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
@@ -23,7 +24,7 @@ namespace MoodTracker.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                        .Annotation("SqlServer:Clustered", true);
                 });
         }
 
