@@ -31,11 +31,12 @@ namespace MoodTracker.API.Controllers
             return NoContent();
         }
 
+        // do pierwszych testów, niedługo usunąć
         [Authorize]
-        [HttpGet("xd")]
-        public IActionResult Xd()
+        [HttpGet("test")]
+        public IActionResult Test()
         {
-            return Ok("super");
+            return Ok("logowanie i token wam działa xD 👏");
         }
     }
 }

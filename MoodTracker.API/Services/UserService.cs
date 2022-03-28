@@ -11,12 +11,14 @@ internal class UserService : IUserService
     private readonly DataContext _context;
     private readonly IMapper _mapper;
     private readonly IAuthManager _authManager;
+    private readonly IHashService _hashService;
 
-    public UserService(DataContext context, IMapper mapper, IAuthManager authManager)
+    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService)
     {
         _context = context;
         _mapper = mapper;
         _authManager = authManager;
+        _hashService = hashService;
     }
 
     public void CreateUser(UserDto dto)
@@ -34,11 +36,11 @@ internal class UserService : IUserService
         }
 
         var user = _mapper.Map<User>(dto);
-        //todo: hash password
+        user.Password = _hashService.Hash(dto.Password);
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        //todo: automatically login after registration
+        //todo?: automatically login after registration
     }
 
     public string Login(UserLoginDto dto)
@@ -50,10 +52,7 @@ internal class UserService : IUserService
             return "";
         }
 
-        //todo: check hash password
-
-        //temporary:
-        if (user.Password != dto.Password)
+        if (!_hashService.Check(user.Password, dto.Password))
         {
             //todo: throw new exception that wrong password
             return "";
