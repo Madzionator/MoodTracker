@@ -12,7 +12,7 @@ using MoodTracker.API.Database;
 namespace MoodTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220325213945_Users")]
+    [Migration("20220327131428_Users")]
     partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +26,11 @@ namespace MoodTracker.API.Migrations
 
             modelBuilder.Entity("MoodTracker.API.Database.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -53,7 +55,7 @@ namespace MoodTracker.API.Migrations
 
                     b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.ToTable("Users");
                 });
