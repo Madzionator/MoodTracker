@@ -1,14 +1,32 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { useState } from 'react'
+import RatingComp from './RatingComp'
+//tmp
+import Btn from './Btn'
 
-const Rating = () => {
+const Rating = (props) => {
+  const [answer, setAnswer] = useState({
+    1:null,
+    2:null,
+    3: null
+})
   return (
-    <View>
-      <Text>Rating</Text>
+    <View style={styles.container}>
+      <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
+      <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
+      <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
+      <Btn onPress={()=>console.log(answer)}/>
     </View>
   )
 }
 
 export default Rating
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop:10
+  },
+})
