@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Home from './components/Home';
 import Login from './components/Login';
+import Rating from './components/Rating';
+import Error from './components/Error';
+
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Home/>
-       {/*<Login/>*/}
-    </View>
+  const [scene, setScene] = useState('Home')
+  return ( 
+    scene == 'Home' ? <Home/> :
+    scene == 'Login' ? <Login/> : 
+    scene == 'Rating' ? <Rating/>: 
+    <Error/>
   );
 }
 
