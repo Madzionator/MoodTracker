@@ -2,6 +2,7 @@
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
+using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
 
 namespace MoodTracker.API.Services;
@@ -25,14 +26,12 @@ internal class UserService : IUserService
     {
         if (_context.Users.Any(x => x.EmailAddress == dto.EmailAddress))
         {
-            //todo: throw new exception that email address is already use
-            return;
+            throw new UserEmailAlreadyExistException(dto.EmailAddress);
         }
 
         if (_context.Users.Any(x => x.UserName == dto.UserName))
         {
-            //todo: throw new exception that username is already use
-            return;
+            throw new UserNameAlreadyExistException(dto.UserName);
         }
 
         var user = _mapper.Map<User>(dto);
@@ -48,14 +47,12 @@ internal class UserService : IUserService
         var user = _context.Users.FirstOrDefault(x => x.UserName == dto.Login || x.EmailAddress == dto.Login);
         if (user is null)
         {
-            //todo: throw new exception that not found
-            return "";
+            throw new UserNotFoundException(dto.Login);
         }
 
         if (!_hashService.Check(user.Password, dto.Password))
         {
-            //todo: throw new exception that wrong password
-            return "";
+            throw new UserWrongPasswordException();
         }
 
         var token = _authManager.CreateToken(user);

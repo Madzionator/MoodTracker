@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using MoodTracker.API;
 using MoodTracker.API.Database;
 using MoodTracker.API.DTO;
+using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
 using MoodTracker.API.Services;
 
@@ -91,6 +92,27 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/", ctx => ctx.Response.WriteAsync($"MoodTracker API {DateTime.Now}"));
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next.Invoke();
+    }
+    catch (ProjectException exception)
+    {
+        context.Response.StatusCode = exception.ErrorCode;
+        await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
+
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsJsonAsync(new { Error = "Błąd serwera" });
+    }
+});
+
+
 app.MapControllers();
 
 app.Run();
