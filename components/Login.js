@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import Btn from './Btn';
 
-export default function Login() {
+export default function Login(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Mood Tracker</Text>
