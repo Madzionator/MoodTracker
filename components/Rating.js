@@ -15,7 +15,7 @@ const Rating = (props) => {
       <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
       <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
       <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
-      <Btn onPress={()=>console.log(answer)}/>
+      <Btn style = {styles.btn} title = 'Prześlij Odpowiedzi' onPress={()=>console.log(answer)}/>
     </View>
   )
 }
@@ -29,4 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop:10
   },
+  btn:{
+    marginBottom:20
+  }
 })
