@@ -1,7 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Btn from './Btn';
+import { 
+  ChelaOne_400Regular 
+} from '@expo-google-fonts/chela-one'
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 export default function Home() {
+  let [fontsLoaded] = useFonts({
+    ChelaOne_400Regular
+  });
+
+  if (!fontsLoaded){
+    return <AppLoading />
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Mood Tracker</Text>
@@ -24,18 +37,19 @@ const styles = StyleSheet.create({
   },
   btn:{
     marginTop:150,
-    fontHeight:37,
     fontFamily:'cursive',
 
   },
   titleText:{
+    textAlign: 'center',
     color: '#ffffff',
-    fontSize:60,
+    fontSize:65,
     fontWeight:'bold',
     marginTop:120,
-    fontFamily:'cursive',
+    fontFamily:'ChelaOne_400Regular',
   },
   footer:{
-    marginTop:415,
+    marginTop:380,
+    marginBottom:10,
   },
 });
