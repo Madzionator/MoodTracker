@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
       borderRadius:10,
     },
     emojiText:{
-        fontSize:40,
+        fontSize:50,
         textAlign:'center'
     },
     emojiTextBlank:{
-      opacity:.4
+      opacity:.4,
+      fontSize:40,
   }
 })

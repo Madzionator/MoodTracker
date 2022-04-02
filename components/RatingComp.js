@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor:Theme.lightBackground,
         borderRadius:10,
+        minHeight:110, //Dla stabilnej zmiany rozmiaru emoji po kliknięciu
+        minWidth:340
     },
     EmojiContainer: {
         flexDirection:'row',
