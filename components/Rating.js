@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import RatingComp from './RatingComp'
-//tmp
 import RNPickerSelect from 'react-native-picker-select';
 import Btn from './Btn'
+import Theme from '../Theme'
 
 const Rating = (props) => {
   const now = new Date();
@@ -31,6 +31,7 @@ const Rating = (props) => {
             value={value}
             onValueChange={(value) =>chandleChange(value)}
             placeholder = {{}}
+            style={pickerStyles}
             items={[
                 { label: 'Dziś', value: '1' },
                 { label: 'Wczoraj', value: '2' },
@@ -43,7 +44,21 @@ const Rating = (props) => {
 }
 
 export default Rating
-
+const pickerStyles = StyleSheet.create({
+  
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginVertical:'10%',
+    borderWidth: 0.5,
+    backgroundColor:Theme.background,
+    borderColor: Theme.lightBackground,
+    borderRadius: 8,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 const styles = StyleSheet.create({
   container: {
     flex:1,
@@ -53,5 +68,8 @@ const styles = StyleSheet.create({
   },
   btn:{
     marginBottom:20
+  },
+  select:{
+    width:'90%'
   }
 })

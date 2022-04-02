@@ -20,7 +20,7 @@ export default RatingComp
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: '#5bd970',
+        
     },
     EmojiContainer: {
         flexDirection:'row',
