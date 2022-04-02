@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useState } from 'react'
 import RatingComp from './RatingComp'
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from 'react-native-picker-select'
 import Btn from './Btn'
 import Theme from '../Theme'
 
@@ -23,7 +24,10 @@ const Rating = (props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+    colors={[Theme.background, Theme.backgroundGradient]}
+    style={styles.container}
+    >
       <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
       <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
       <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
@@ -39,7 +43,7 @@ const Rating = (props) => {
             ]}
         />
       <Btn style = {styles.btn} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
-    </View>
+    </LinearGradient>
   )
 }
 
@@ -67,7 +71,8 @@ const styles = StyleSheet.create({
     paddingTop:10
   },
   btn:{
-    marginBottom:20
+    marginBottom:20,
+    backgroundColor:Theme.background,
   },
   select:{
     width:'90%'

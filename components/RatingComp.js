@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Emoji from './Emoji'
+import Theme from '../Theme'
 
 const RatingComp = (props) => {
   return (
@@ -20,7 +21,8 @@ export default RatingComp
 
 const styles = StyleSheet.create({
     container:{
-        
+        backgroundColor:Theme.lightBackground,
+        borderRadius:10
     },
     EmojiContainer: {
         flexDirection:'row',
