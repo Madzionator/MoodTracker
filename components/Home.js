@@ -5,6 +5,7 @@ import {
 } from '@expo-google-fonts/chela-one'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { TouchableNativeFeedback } from 'react-native-web';
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     fontFamily:'ChelaOne_400Regular',
   },
   footer:{
-    marginTop:380,
-    marginBottom:10,
+    marginTop: 'auto',
+    marginBottom: 10,
   },
 });
