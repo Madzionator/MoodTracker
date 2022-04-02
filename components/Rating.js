@@ -42,7 +42,7 @@ const Rating = (props) => {
                 { label: 'Dwa dni temu', value: '3' },
             ]}
         />
-      <Btn style = {styles.btn} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
+      <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
     </LinearGradient>
   )
 }
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop:10
+    paddingTop:30
   },
   btn:{
     marginBottom:20,
