@@ -10,9 +10,12 @@ namespace MoodTracker.API.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IUserInfoProvider _userInfoProvider;
+
+        public UserController(IUserService userService, IUserInfoProvider userInfoProvider)
         {
             _userService = userService;
+            _userInfoProvider = userInfoProvider;
         }
 
         [HttpPost("login")]
@@ -32,11 +35,12 @@ namespace MoodTracker.API.Controllers
         }
 
         // do pierwszych testów, niedługo usunąć
-        [Authorize]
+        [Authorize] // wymóg zalogowania
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok("logowanie i token wam działa xD 👏");
+            var user = _userInfoProvider.CurrentUser; // pozyskiwanie użytkownika z tokenu
+            return Ok($"Potwierdzono logowanie na konto '{user.UserName}' :D");
         }
     }
 }

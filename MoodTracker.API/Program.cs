@@ -77,6 +77,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IUserInfoProvider, UserInfoProvider>();
+
 var app = builder.Build();
 
 app.UseSwagger();
