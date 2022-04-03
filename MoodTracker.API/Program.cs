@@ -20,6 +20,8 @@ builder.Services.AddHostedService<DbMigrator>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration).Assembly);
 
+builder.Services.AddScoped<IMoodService, MoodService>();
+
 builder.Services.AddScoped<IHashService, HashService>();
 
 builder.Services.AddSingleton<IAuthManager, AuthManager>();
