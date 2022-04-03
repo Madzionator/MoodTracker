@@ -4,7 +4,6 @@ using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
-
 namespace MoodTracker.API.Services;
 
 internal class MoodService : IMoodService
@@ -20,7 +19,14 @@ internal class MoodService : IMoodService
 
     public void AddMood(MoodDto dto, int? userId)
     {
-        if (_context.Moods.Any(x => x.DateTime.Day == dto.DateTime.Day))
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+
+        if (_context.Moods
+            .Where(x => x.UserId == userId)
+            .Any(x => x.DateTime.Date == dto.DateTime.Date))
         {
             throw new MoodForTodayAlreadyExistException();
         }
@@ -29,6 +35,22 @@ internal class MoodService : IMoodService
         mood.UserId = userId ?? -1;
         _context.Moods.Add(mood);
         _context.SaveChanges();
+    }
+
+    public IList<MoodDto> GetMoods(int? userId)
+    {
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+
+        var moods = _context.Moods
+        .Where(x => x.UserId == userId)
+        .OrderByDescending(x => x.DateTime)
+        .Select(x => _mapper.Map<MoodDto>(x))
+        .ToList();
+
+        return moods;
     }
 }
 

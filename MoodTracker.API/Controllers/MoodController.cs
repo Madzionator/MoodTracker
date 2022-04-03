@@ -19,11 +19,19 @@ namespace MoodTracker.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("addmood")]
+        [HttpPost("add")]
         public IActionResult AddMood([FromBody] MoodDto moodDto)
         {
             _moodService.AddMood(moodDto, _userInfoProvider.Id);
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("get")]
+        public IActionResult GetMoods()
+        {
+            var moods = _moodService.GetMoods(_userInfoProvider.Id);
+            return Ok(moods);
         }
     }
 }

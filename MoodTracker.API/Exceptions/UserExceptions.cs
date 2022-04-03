@@ -19,3 +19,8 @@ public class UserNameAlreadyExistException : ProjectException
 {
     public UserNameAlreadyExistException(string username) : base($"Nazwa {username} jest już zajęta.") { }
 }
+
+public class UserIdNotFoundException : ProjectException
+{
+    public UserIdNotFoundException() : base($"Nieprawidłowe Id użytkownika.") { }
+}
