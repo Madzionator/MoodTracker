@@ -6,32 +6,46 @@ export default function Login(props) {
     <View style={styles.container}>
       <Text style={styles.titleText}>Mood Tracker</Text>
       <TextInput
-        style={styles.input}
-       // onChangeText={onChangeText}
-        //value={text}
+        style={styles.login}
+        //onChangeText={onChangeText}
+        title = "login"
+        placeholder="Login"
       />
       <TextInput
-        style={styles.input}
-        placeholder="useless placeholder"
+        style={styles.haslo}
+        placeholder = "Hasło"
         autoComplete = 'password'
       />
-        <Btn title = 'Zaloguj' style={styles.btn} />
+      <Btn title = 'Zaloguj' style={styles.btn}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#5bd970',
+  login: {
+    backgroundColor: 'white',
     alignItems: 'center',
+    border: '5px solid orange',
+    marginBottom: '4%',
+    fontSize: 20
   },
-  btn:{
-    marginTop:10
+  haslo: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    border: '5px solid orange',
+    marginBottom: '4%',
+    fontSize: 20
   },
   titleText:{
-    fontSize:28,
-    fontWeight:900,
-    marginTop:80
+    fontSize:25,
+    fontWeight:500,
+    marginTop:65
+  },
+  btn:{
+    marginTop:'5%',
+    marginLeft:'15%',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 20
   }
 });

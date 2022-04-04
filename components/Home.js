@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Btn from './Btn';
+import Login from './Login';
 
 export default function Home(props) {
   return (
@@ -15,16 +16,25 @@ export default function Home(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5bd970',
+    backgroundColor: 'black',
     alignItems: 'center',
-    //justifyContent: 'center',
-  },
-  btn:{
-    marginTop:10
+    justifyContent: 'center',
   },
   titleText:{
+    color: 'orange',
     fontSize:28,
     fontWeight:900,
     marginTop:80
+  },
+  btn:{
+    marginTop:'5%',
+    marginBottom: '5%',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 77
+  },
+  footer:{
+    color: 'orange',
+    fontSize: 15,
   }
 });
