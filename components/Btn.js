@@ -13,6 +13,7 @@ const Btn = (props) => {
 const styles = StyleSheet.create({
   button: {
     //backgroundColor: Colors.primary,
+
     backgroundColor:'#11ab54',
     padding: 20,
     borderRadius:5,
@@ -29,6 +30,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily:'cursive',
     textAlign: 'center',
+  },
+  btn:{
+    marginTop:'5%',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 20
   }
 });
 
