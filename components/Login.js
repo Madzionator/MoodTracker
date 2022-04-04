@@ -23,7 +23,7 @@ export default function Login(props) {
           autoComplete = 'password'
           secureTextEntry='true'
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Rating')}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Rating') /*Temporary solution*/}/>
       </View>
     </LinearGradient>
   );
