@@ -11,7 +11,7 @@ const Emoji = (props) => {
     }
   return (
     <TouchableOpacity style = {styles.emoji} onPress={chandlePress}>
-      <Text style = {[styles.emojiText, props.pressed != props.value ? styles.emojiTextBlank:null]}>{props.code}</Text>
+      <Text style = {[styles.emojiText, props.pressed != props.value&&props.pressed!=null ? styles.emojiTextBlank:null]}>{props.code}</Text>
     </TouchableOpacity>
   )
 }
@@ -27,11 +27,10 @@ const styles = StyleSheet.create({
       borderRadius:10,
     },
     emojiText:{
-        fontSize:50,
+        fontSize:40,
         textAlign:'center'
     },
     emojiTextBlank:{
       opacity:.4,
-      fontSize:40,
   }
 })
