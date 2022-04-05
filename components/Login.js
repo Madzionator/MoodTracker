@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import Btn from './Btn';
 import Theme from '../Theme'
+import Header from './Header';
 export default function Login(props) {
   return (
     <LinearGradient
@@ -9,7 +10,7 @@ export default function Login(props) {
     style={styles.container}
     >
       <View style={{marginBottom:'40%'}}>
-        <Text style={styles.titleText}>Mood Tracker</Text>
+        <Header style = {{marginBottom:40}}/>
         <TextInput
           style={styles.input}
           //onChangeText={onChangeText}
@@ -22,6 +23,7 @@ export default function Login(props) {
           placeholder = "Hasło"
           autoComplete = 'password'
           secureTextEntry='true'
+          //onSubmitEditing={}
         />
         <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Rating')}/>
       </View>
@@ -53,13 +55,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-  },
-  titleText:{
-    fontSize:50,
-    fontWeight:'700',
-    marginBottom:50,
-    color:'white',
-    textAlign:'center'
   },
   btn:{
     marginHorizontal:'auto',
