@@ -7,7 +7,7 @@ import Rating from './components/Rating';
 import Error from './components/Error';
 
 export default function App() {
-  const [scene, setScene] = useState('Login')
+  const [scene, setScene] = useState('Home')
   return ( 
     scene == 'Home' ? <Home setScene = {setScene}/> :
     scene == 'Login' ? <Login setScene = {setScene}/> : 
