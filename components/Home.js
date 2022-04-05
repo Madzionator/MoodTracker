@@ -1,8 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Btn from './Btn';
 import Login from './Login';
+import { 
+  ChelaOne_400Regular 
+} from '@expo-google-fonts/chela-one'
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import { TouchableNativeFeedback } from 'react-native-web';
 
-export default function Home(props) {
+export default function Home() {
+  let [fontsLoaded] = useFonts({
+    ChelaOne_400Regular
+  });
+
+  if (!fontsLoaded){
+    return <AppLoading />
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Mood Tracker</Text>
@@ -16,25 +30,28 @@ export default function Home(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#f5ba7f',
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
   },
-  titleText:{
-    color: 'orange',
-    fontSize:28,
-    fontWeight:900,
-    marginTop:80
+  btn1:{
+    marginTop:20
   },
   btn:{
-    marginTop:'5%',
-    marginBottom: '5%',
-    alignItems: 'center',
+    marginTop:150,
+    fontFamily:'cursive',
+
+  },
+  titleText:{
     textAlign: 'center',
-    fontSize: 77
+    color: '#ffffff',
+    fontSize:65,
+    fontWeight:'bold',
+    marginTop:120,
+    fontFamily:'ChelaOne_400Regular',
   },
   footer:{
-    color: 'orange',
-    fontSize: 15,
-  }
+    marginTop: 'auto',
+    marginBottom: 10,
+  },
 });
