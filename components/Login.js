@@ -21,7 +21,7 @@ export default function Login(props) {
       alert('You are logged in');
       props.setScene('Rating')
      } else {
-         alert('Please check your login information.');
+         alert(result.message);
      }
   });
   }
@@ -40,6 +40,7 @@ export default function Login(props) {
           value = {login}
           onChangeText = {setLogin}
           autoComplete = 'username'
+          autoCapitalize='none'
         />
         <TextInput
           style={styles.input}
@@ -47,9 +48,9 @@ export default function Login(props) {
           value = {password}
           onChangeText = {setPassword}
           autoComplete = 'password'
-          secureTextEntry='true'
+          secureTextEntry={true}
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Rating')}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>{props.setScene('Rating')}}/>
       </View>
     </LinearGradient>
   );
@@ -82,14 +83,14 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize:50,
-    fontWeight:'700',
+    fontWeight:"700",
     marginBottom:50,
     color:'white',
     textAlign:'center'
   },
   btn:{
     marginHorizontal:'auto',
-    alignItems: 'center',
+    //alignItems: 'center',
     textAlign: 'center',
     fontSize: 20,
     backgroundColor:Theme.background

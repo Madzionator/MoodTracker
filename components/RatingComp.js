@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor:Theme.lightBackground,
         borderRadius:10,
+        padding:5
     },
     EmojiContainer: {
         flexDirection:'row',
@@ -30,10 +31,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title:{
-        width:'100%',
         textAlign:'center',
         fontSize:24,
-        fontWeight:700,
+        fontWeight:"700",
         color:'white'
     }
 })

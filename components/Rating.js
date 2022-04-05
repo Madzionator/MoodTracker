@@ -54,21 +54,21 @@ const pickerStyles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    marginVertical:'10%',
     borderWidth: 0.5,
     backgroundColor:Theme.background,
     borderColor: Theme.lightBackground,
     borderRadius: 8,
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
+    marginHorizontal:'15%'
   },
 });
 const styles = StyleSheet.create({
   container: {
     flex:1,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop:30
+    justifyContent: 'space-evenly',
+    paddingTop:40
   },
   btn:{
     marginBottom:20,

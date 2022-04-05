@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   titleText:{
     color: 'orange',
     fontSize:28,
-    fontWeight:900,
+    fontWeight:"900",
     marginTop:80
   },
   btn:{
