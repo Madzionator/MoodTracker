@@ -57,7 +57,7 @@ const pickerStyles = StyleSheet.create({
     borderWidth: 0.5,
     backgroundColor:Theme.background,
     borderColor: Theme.lightBackground,
-    borderRadius: 8,
+    borderRadius: 10,
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
     marginHorizontal:'15%'

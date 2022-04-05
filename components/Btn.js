@@ -26,12 +26,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     textAlign: 'center',
-  },
-  btn:{
-    marginTop:'5%',
-    alignItems: 'center',
-    textAlign: 'center',
-    fontSize: 20
   }
 });
 

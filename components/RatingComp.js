@@ -22,7 +22,7 @@ export default RatingComp
 const styles = StyleSheet.create({
     container:{
         backgroundColor:Theme.lightBackground,
-        borderRadius:10,
+        borderRadius:5,
         padding:5
     },
     EmojiContainer: {

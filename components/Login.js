@@ -30,7 +30,7 @@ export default function Login(props) {
     colors={[Theme.background, Theme.backgroundGradient]}
     style={styles.container}
     >
-      <View style={{marginBottom:'40%'}}>
+      <View style={{marginBottom:'40%', width:'80%'}}>
         <Text style={styles.titleText}>Mood Tracker</Text>
         <TextInput
           style={styles.input}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     paddingTop:30,
-    justifyContent:'space-around'
+    justifyContent:'space-around',
   },
   input: {
     backgroundColor: 'white',
@@ -91,8 +91,10 @@ const styles = StyleSheet.create({
   btn:{
     marginHorizontal:'auto',
     //alignItems: 'center',
+    marginVertical:'auto',
+    marginLeft:'15%',
     textAlign: 'center',
     fontSize: 20,
-    backgroundColor:Theme.background
+    backgroundColor:Theme.background,
   }
 });
