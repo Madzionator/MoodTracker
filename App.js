@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Home from './components/Home';
+
 import Login from './components/Login';
 import Register from './components/Register';
 import Rating from './components/Rating';
@@ -16,13 +16,4 @@ export default function App() {
     <Error setScene = {setScene}/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
 
