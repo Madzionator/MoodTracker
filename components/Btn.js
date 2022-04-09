@@ -30,12 +30,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily:'cursive',
     textAlign: 'center',
-  },
-  btn:{
-    marginTop:'5%',
-    alignItems: 'center',
-    textAlign: 'center',
-    fontSize: 20
   }
 });
 

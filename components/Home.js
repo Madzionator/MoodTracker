@@ -34,8 +34,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //justifyContent: 'center',
   },
-  btn1:{
-    marginTop:20
+  titleText:{
+    color: 'orange',
+    fontSize:28,
+    fontWeight:"900",
+    marginTop:80
+
   },
   btn:{
     marginTop:150,
