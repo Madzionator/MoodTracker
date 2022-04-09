@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Btn from './Btn'
-const Error = (props) => {
+const About = (props) => {
   return (
     <View>
-      <Text>Error</Text>
+      <Text>About</Text>
       <Btn title = 'Powrót' style={styles.btn} onPress = {()=>props.setScene('Home')}/>
     </View>
   )
 }
 
-export default Error
+export default About
 
 const styles = StyleSheet.create({})
