@@ -1,29 +1,56 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
+import { useState } from 'react';
 import Btn from './Btn';
 import Theme from '../Theme'
 export default function Login(props) {
+  const [login,setLogin] = useState("")
+  const [password, setPassword] = useState("")
+  const handleLogin = (e)=>{
+    e.preventDefault();
+  fetch ("https://moodtrackerapi.azurewebsites.net/User/login", {
+     method: 'POST',
+     body: JSON.stringify({
+       login: login,
+       password: password
+    }),
+})
+  .then((response) => response.json())
+  .then((result) => {
+    if(result.message === 'SUCCESS'){
+      alert('You are logged in');
+      props.setScene('Rating')
+     } else {
+         alert(result.message);
+     }
+  });
+  }
   return (
     <LinearGradient
     colors={[Theme.background, Theme.backgroundGradient]}
     style={styles.container}
     >
-      <View style={{marginBottom:'40%'}}>
+      <View style={{marginBottom:'40%', width:'80%'}}>
         <Text style={styles.titleText}>Mood Tracker</Text>
         <TextInput
           style={styles.input}
           //onChangeText={onChangeText}
           title = "login"
           placeholder="Login"
+          value = {login}
+          onChangeText = {setLogin}
           autoComplete = 'username'
+          autoCapitalize='none'
         />
         <TextInput
           style={styles.input}
           placeholder = "Hasło"
+          value = {password}
+          onChangeText = {setPassword}
           autoComplete = 'password'
-          secureTextEntry='true'
+          secureTextEntry={true}
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Rating') /*Temporary solution*/}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>{props.setScene('Rating')}}/>
       </View>
     </LinearGradient>
   );
@@ -34,7 +61,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     paddingTop:30,
-    justifyContent:'space-around'
+    justifyContent:'space-around',
   },
   input: {
     backgroundColor: 'white',
@@ -56,16 +83,18 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize:50,
-    fontWeight:700,
+    fontWeight:"700",
     marginBottom:50,
     color:'white',
     textAlign:'center'
   },
   btn:{
     marginHorizontal:'auto',
-    alignItems: 'center',
+    //alignItems: 'center',
+    marginVertical:'auto',
+    marginLeft:'15%',
     textAlign: 'center',
     fontSize: 20,
-    backgroundColor:Theme.background
+    backgroundColor:Theme.background,
   }
 });
