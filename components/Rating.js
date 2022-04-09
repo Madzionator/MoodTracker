@@ -5,7 +5,6 @@ import RatingComp from './RatingComp'
 import RNPickerSelect from 'react-native-picker-select'
 import Btn from './Btn'
 import Theme from '../Theme'
-import Menu from './Menu'
 
 const Rating = (props) => {
   const now = new Date();
@@ -46,7 +45,6 @@ const Rating = (props) => {
           />
         <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
       </LinearGradient>
-      <Menu setScene={props.setScene} scene = {props.scene}/>
     </View>
 
   )
