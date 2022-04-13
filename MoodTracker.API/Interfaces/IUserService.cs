@@ -5,7 +5,7 @@ namespace MoodTracker.API.Interfaces;
 
 public interface IUserService
 {
-    void CreateUser(UserRegDto regRegDto);
+    void CreateUser(UserRegDto userRegDto);
     string Login(UserLoginDto dto);
-    UserDto GetInfo();
+    UserInfoDto GetInfo();
 }

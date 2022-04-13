@@ -1,8 +1,10 @@
-﻿namespace MoodTracker.API.Exceptions;
+﻿using System.Net;
+
+namespace MoodTracker.API.Exceptions;
 
 public class UserNotFoundException : ProjectException
 {
-    public UserNotFoundException(string login) : base($"Użytkownik {login} nie istnieje.") { }
+    public UserNotFoundException(string login) : base($"Użytkownik {login} nie istnieje.", HttpStatusCode.NotFound) { }
 }
 
 public class UserWrongPasswordException : ProjectException
@@ -22,5 +24,5 @@ public class UserNameAlreadyExistException : ProjectException
 
 public class UserIdNotFoundException : ProjectException
 {
-    public UserIdNotFoundException() : base($"Nieprawidłowe Id użytkownika.") { }
+    public UserIdNotFoundException() : base($"Nieprawidłowe Id użytkownika.", HttpStatusCode.NotFound) { }
 }

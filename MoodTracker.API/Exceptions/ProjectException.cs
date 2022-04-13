@@ -1,9 +1,11 @@
-﻿namespace MoodTracker.API.Exceptions;
+﻿using System.Net;
+
+namespace MoodTracker.API.Exceptions;
 public class ProjectException : Exception
 {
-    public int ErrorCode { get; }
+    public HttpStatusCode ErrorCode { get; }
 
-    public ProjectException(string message, int errorCode = 400) : base(message)
+    public ProjectException(string message, HttpStatusCode errorCode = HttpStatusCode.BadRequest) : base(message)
     {
         ErrorCode = errorCode;
     }

@@ -1,11 +1,15 @@
-﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+﻿using System.Globalization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MicroElements.Swashbuckle.FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 
 namespace MoodTracker.API.Infrastructure;
 
-public static class SwaggerExtensions
+public static class Extensions
 {
-    public static IServiceCollection AddSwagger (this IServiceCollection services)
+    public static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {
@@ -45,6 +49,21 @@ public static class SwaggerExtensions
         return app
             .UseSwagger()
             .UseSwaggerUI();
+    }
+
+    public static IServiceCollection AddControllersWithValidations(this IServiceCollection services)
+    {
+        services
+            .AddControllers()
+            .AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<Program>();
+                fv.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+            });
+
+        ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pl");
+
+        return services;
     }
 }
 

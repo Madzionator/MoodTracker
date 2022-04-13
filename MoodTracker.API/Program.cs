@@ -9,14 +9,7 @@ using MoodTracker.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddControllers()
-    .AddFluentValidation(fv =>
-    {
-        fv.RegisterValidatorsFromAssemblyContaining<Program>();
-        fv.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
-    });
-
+builder.Services.AddControllersWithValidations();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration).Assembly);
 builder.Services.AddSwagger();
 

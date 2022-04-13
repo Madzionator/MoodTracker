@@ -12,14 +12,13 @@ public class ErrorHandlingMiddleware : IMiddleware
         }
         catch (ProjectException exception)
         {
-            context.Response.StatusCode = exception.ErrorCode;
-            await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
-
+            context.Response.StatusCode = (int)exception.ErrorCode;
+            await context.Response.WriteAsJsonAsync(new { Title = exception.Message });
         }
         catch (Exception)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsJsonAsync(new { Error = "Błąd serwera" });
+            await context.Response.WriteAsJsonAsync(new { Title = "Błąd serwera" });
         }
     }
 }
