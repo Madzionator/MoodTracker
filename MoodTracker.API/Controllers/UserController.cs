@@ -37,7 +37,7 @@ namespace MoodTracker.API.Controllers
         [HttpGet("info")]
         public IActionResult GetUser()
         {
-            UserDto userInfo = _userService.GetInfo();
+            var userInfo = _userService.GetInfo();
             return Ok(userInfo);
         }
     }
