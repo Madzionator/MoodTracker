@@ -13,13 +13,15 @@ internal class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly IAuthManager _authManager;
     private readonly IHashService _hashService;
+    private readonly IUserInfoProvider _userInfoProvider;
 
-    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService)
+    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService, IUserInfoProvider userInfoProvider)
     {
         _context = context;
         _mapper = mapper;
         _authManager = authManager;
         _hashService = hashService;
+        _userInfoProvider = userInfoProvider;
     }
 
     public void CreateUser(UserRegDto regRegDto)
@@ -59,8 +61,9 @@ internal class UserService : IUserService
         return token;
     }
 
-    public UserDto MapUserToUserDto(User user)
+    public UserDto GetInfo()
     {
+        var user = _userInfoProvider.CurrentUser;
         var info = _mapper.Map<UserDto>(user);
         return info;
     }

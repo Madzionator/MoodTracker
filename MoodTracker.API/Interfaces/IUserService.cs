@@ -7,5 +7,5 @@ public interface IUserService
 {
     void CreateUser(UserRegDto regRegDto);
     string Login(UserLoginDto dto);
-    UserDto MapUserToUserDto(User user);
+    UserDto GetInfo();
 }

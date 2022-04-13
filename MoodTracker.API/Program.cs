@@ -23,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfiguration).Assembly);
 //builder.Services.AddScoped<IMoodService, MoodService>();
 
 builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddScoped<IUserInfoProvider, UserInfoProvider>();
 
 builder.Services.AddSingleton<IAuthManager, AuthManager>();
 var authOptions = builder.Configuration.GetOptions<AuthOptions>("Auth");
@@ -80,7 +81,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddTransient<IUserInfoProvider, UserInfoProvider>();
 
 var app = builder.Build();
 
