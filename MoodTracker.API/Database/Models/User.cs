@@ -44,3 +44,4 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasDefaultValue(false);
     }
 }
+

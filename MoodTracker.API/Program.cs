@@ -1,4 +1,7 @@
 ﻿using System.Text;
+using FluentValidation.AspNetCore;
+using MicroElements.Swashbuckle.FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -49,7 +52,15 @@ builder.Services
         };
     });
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddFluentValidation(fv =>
+{
+    fv.RegisterValidatorsFromAssemblyContaining<Program>();
+    fv.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+});
+
+builder.Services.AddFluentValidationRulesToSwagger();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
