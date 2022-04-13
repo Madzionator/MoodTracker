@@ -3,28 +3,40 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { useState } from 'react';
 import Btn from './Btn';
 import Theme from '../Theme'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Login(props) {
   const [login,setLogin] = useState("")
   const [password, setPassword] = useState("")
-  const handleLogin = (e)=>{
-    e.preventDefault();
-  fetch ("https://moodtrackerapi.azurewebsites.net/User/login", {
-     method: 'POST',
-     body: JSON.stringify({
-       login: login,
-       password: password
-    }),
-})
-  .then((response) => response.json())
-  .then((result) => {
-    if(result.message === 'SUCCESS'){
-      alert('You are logged in');
-      props.setScene('Rating')
-     } else {
-         alert(result.message);
-     }
-  });
+  const save = async (token)=>{
+    try {
+      await AsyncStorage.setItem('MoodTrackerToken', token)
+    } catch (e) {
+      // saving error
+    }
   }
+  const handleLogin =()=>{
+    fetch("https://moodtrackerapi.azurewebsites.net/User/login", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        login:login,
+        password:password
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if(data.token != null)
+        {
+          props.setScene('Register')
+          save(data.token);
+        }
+        else{
+          setPassword('')
+          alert(data.error)
+        }
+      });
+  };    
   return (
     <LinearGradient
     colors={[Theme.background, Theme.backgroundGradient]}
@@ -50,7 +62,7 @@ export default function Login(props) {
           autoComplete = 'password'
           secureTextEntry={true}
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>{props.setScene('Rating')}}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {handleLogin}/>
       </View>
     </LinearGradient>
   );
