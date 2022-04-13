@@ -1,4 +1,5 @@
-﻿using MoodTracker.API.Database.Models;
+﻿/*
+using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
 
 namespace MoodTracker.API.Interfaces;
@@ -10,3 +11,4 @@ public interface IMoodService
     IList<MoodDto> GetMoods(int? userId);
 }
 
+*/

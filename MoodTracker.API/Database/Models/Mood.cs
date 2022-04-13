@@ -19,6 +19,7 @@ public class Mood
     public User User { get; set; }
 }
 
+/*
 public class MoodConfiguration : IEntityTypeConfiguration<Mood>
 {
     public void Configure(EntityTypeBuilder<Mood> mood)
@@ -30,3 +31,4 @@ public class MoodConfiguration : IEntityTypeConfiguration<Mood>
         mood.Property(x => x.UserId).IsRequired();
     }
 }
+*/

@@ -12,8 +12,8 @@ using MoodTracker.API.Database;
 namespace MoodTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220401184556_Moods")]
-    partial class Moods
+    [Migration("20220412234028_user")]
+    partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,38 +24,6 @@ namespace MoodTracker.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MoodTracker.API.Database.Models.Mood", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("Family")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Hobby")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Study")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Moods");
-                });
-
             modelBuilder.Entity("MoodTracker.API.Database.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -64,6 +32,10 @@ namespace MoodTracker.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Bio")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -71,6 +43,11 @@ namespace MoodTracker.API.Migrations
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<bool>("IsPrivate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -90,22 +67,6 @@ namespace MoodTracker.API.Migrations
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MoodTracker.API.Database.Models.Mood", b =>
-                {
-                    b.HasOne("MoodTracker.API.Database.Models.User", "User")
-                        .WithMany("Moods")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MoodTracker.API.Database.Models.User", b =>
-                {
-                    b.Navigation("Moods");
                 });
 #pragma warning restore 612, 618
         }
