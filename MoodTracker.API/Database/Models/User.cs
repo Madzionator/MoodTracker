@@ -14,8 +14,7 @@ public class User : ICreatedAt, IModifiedAt
 
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
-
-    //public ICollection<Mood> Moods { get; set; }
+    public ICollection<Mood> Moods { get; set; }
 }
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -45,3 +44,4 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasDefaultValue(false);
     }
 }
+

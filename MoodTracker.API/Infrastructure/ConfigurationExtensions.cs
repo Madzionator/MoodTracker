@@ -1,6 +1,6 @@
 ﻿namespace MoodTracker.API;
 
-public static class Extensions
+public static class ConfigurationExtensions
 {
     public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : new()
     {

@@ -1,5 +1,4 @@
-﻿/*
-using AutoMapper;
+﻿using AutoMapper;
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
@@ -11,15 +10,18 @@ internal class MoodService : IMoodService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly IUserInfoProvider _userInfoProvider;
 
-    public MoodService(DataContext context, IMapper mapper)
+    public MoodService(DataContext context, IMapper mapper, IUserInfoProvider userInfoProvider)
     {
         _context = context;
         _mapper = mapper;
+        _userInfoProvider = userInfoProvider;
     }
 
-    public void AddMood(MoodDto dto, int? userId)
+    public void AddMood(MoodDto dto)
     {
+        var userId = _userInfoProvider.Id;
         if (userId == null)
         {
             throw new UserIdNotFoundException();
@@ -29,6 +31,7 @@ internal class MoodService : IMoodService
             .Where(x => x.UserId == userId)
             .Any(x => x.DateTime.Date == dto.DateTime.Date))
         {
+            //todo: do update instead of that
             throw new MoodForTodayAlreadyExistException();
         }
 
@@ -38,8 +41,9 @@ internal class MoodService : IMoodService
         _context.SaveChanges();
     }
 
-    public IList<MoodDto> GetMoods(int? userId)
+    public IList<MoodDto> GetMoods()
     {
+        var userId = _userInfoProvider.Id;
         if (userId == null)
         {
             throw new UserIdNotFoundException();
@@ -54,5 +58,3 @@ internal class MoodService : IMoodService
         return moods;
     }
 }
-*/
-

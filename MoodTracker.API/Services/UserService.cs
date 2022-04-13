@@ -13,29 +13,31 @@ internal class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly IAuthManager _authManager;
     private readonly IHashService _hashService;
+    private readonly IUserInfoProvider _userInfoProvider;
 
-    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService)
+    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService, IUserInfoProvider userInfoProvider)
     {
         _context = context;
         _mapper = mapper;
         _authManager = authManager;
         _hashService = hashService;
+        _userInfoProvider = userInfoProvider;
     }
 
-    public void CreateUser(UserRegDto regRegDto)
+    public void CreateUser(UserRegDto userRegDto)
     {
-        if (_context.Users.Any(x => x.EmailAddress == regRegDto.EmailAddress))
+        if (_context.Users.Any(x => x.EmailAddress == userRegDto.EmailAddress))
         {
-            throw new UserEmailAlreadyExistException(regRegDto.EmailAddress);
+            throw new UserEmailAlreadyExistException(userRegDto.EmailAddress);
         }
 
-        if (_context.Users.Any(x => x.UserName == regRegDto.UserName))
+        if (_context.Users.Any(x => x.UserName == userRegDto.UserName))
         {
-            throw new UserNameAlreadyExistException(regRegDto.UserName);
+            throw new UserNameAlreadyExistException(userRegDto.UserName);
         }
 
-        var user = _mapper.Map<User>(regRegDto);
-        user.Password = _hashService.Hash(regRegDto.Password);
+        var user = _mapper.Map<User>(userRegDto);
+        user.Password = _hashService.Hash(userRegDto.Password);
         _context.Users.Add(user);
         _context.SaveChanges();
 
@@ -59,9 +61,10 @@ internal class UserService : IUserService
         return token;
     }
 
-    public UserDto MapUserToUserDto(User user)
+    public UserInfoDto GetInfo()
     {
-        var info = _mapper.Map<UserDto>(user);
+        var user = _userInfoProvider.CurrentUser;
+        var info = _mapper.Map<UserInfoDto>(user);
         return info;
     }
 }

@@ -9,7 +9,8 @@ public class MapperConfiguration : Profile
     {
         CreateMap<User, UserRegDto>().ReverseMap();
         CreateMap<User, UserLoginDto>().ReverseMap();
-        CreateMap<User, UserDto>().ReverseMap();
-        //CreateMap<Mood, MoodDto>().ReverseMap();
+        CreateMap<User, UserInfoDto>().ReverseMap();
+        CreateMap<User, UserEditDto>().ReverseMap();
+        CreateMap<Mood, MoodDto>().ReverseMap();
     }
 }

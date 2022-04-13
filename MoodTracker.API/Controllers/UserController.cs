@@ -11,12 +11,10 @@ namespace MoodTracker.API.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IUserInfoProvider _userInfoProvider;
 
-        public UserController(IUserService userService, IUserInfoProvider userInfoProvider)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _userInfoProvider = userInfoProvider;
         }
 
         [HttpPost("login")]
@@ -39,9 +37,8 @@ namespace MoodTracker.API.Controllers
         [HttpGet("info")]
         public IActionResult GetUser()
         {
-            var user = _userInfoProvider.CurrentUser;
-            UserDto userProfileInfo = _userService.MapUserToUserDto(user);
-            return Ok(userProfileInfo);
+            var userInfo = _userService.GetInfo();
+            return Ok(userInfo);
         }
     }
 }
