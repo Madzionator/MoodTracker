@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Interfaces;
@@ -35,3 +35,5 @@ namespace MoodTracker.API.Controllers
         }
     }
 }
+
+*/

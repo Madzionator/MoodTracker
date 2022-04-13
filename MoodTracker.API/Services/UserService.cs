@@ -22,20 +22,20 @@ internal class UserService : IUserService
         _hashService = hashService;
     }
 
-    public void CreateUser(UserDto dto)
+    public void CreateUser(UserRegDto regRegDto)
     {
-        if (_context.Users.Any(x => x.EmailAddress == dto.EmailAddress))
+        if (_context.Users.Any(x => x.EmailAddress == regRegDto.EmailAddress))
         {
-            throw new UserEmailAlreadyExistException(dto.EmailAddress);
+            throw new UserEmailAlreadyExistException(regRegDto.EmailAddress);
         }
 
-        if (_context.Users.Any(x => x.UserName == dto.UserName))
+        if (_context.Users.Any(x => x.UserName == regRegDto.UserName))
         {
-            throw new UserNameAlreadyExistException(dto.UserName);
+            throw new UserNameAlreadyExistException(regRegDto.UserName);
         }
 
-        var user = _mapper.Map<User>(dto);
-        user.Password = _hashService.Hash(dto.Password);
+        var user = _mapper.Map<User>(regRegDto);
+        user.Password = _hashService.Hash(regRegDto.Password);
         _context.Users.Add(user);
         _context.SaveChanges();
 
@@ -57,5 +57,11 @@ internal class UserService : IUserService
 
         var token = _authManager.CreateToken(user);
         return token;
+    }
+
+    public UserDto MapUserToUserDto(User user)
+    {
+        var info = _mapper.Map<UserDto>(user);
+        return info;
     }
 }

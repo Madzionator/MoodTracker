@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿/*
+using AutoMapper;
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
@@ -53,4 +54,5 @@ internal class MoodService : IMoodService
         return moods;
     }
 }
+*/
 

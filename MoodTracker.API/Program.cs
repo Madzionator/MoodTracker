@@ -20,7 +20,7 @@ builder.Services.AddHostedService<DbMigrator>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration).Assembly);
 
-builder.Services.AddScoped<IMoodService, MoodService>();
+//builder.Services.AddScoped<IMoodService, MoodService>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 
@@ -110,7 +110,7 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsJsonAsync(new { Error = exception.Message });
 
     }
-    catch (Exception ex)
+    catch (Exception)
     {
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         await context.Response.WriteAsJsonAsync(new { Error = "Błąd serwera" });

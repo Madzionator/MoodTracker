@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Interfaces;
@@ -23,24 +24,24 @@ namespace MoodTracker.API.Controllers
         public IActionResult Login([FromBody] UserLoginDto dto)
         {
             var token = _userService.Login(dto);
-            return Ok(token);
+            return Ok(new { Token = token });
         }
 
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult CreateUser([FromBody] UserDto userDto)
+        public IActionResult CreateUser([FromBody] UserRegDto userRegDto)
         {
-            _userService.CreateUser(userDto);
+            _userService.CreateUser(userRegDto);
             return NoContent();
         }
 
-        // do pierwszych testów, niedługo usunąć
-        [Authorize] // wymóg zalogowania
-        [HttpGet("test")]
-        public IActionResult Test()
+        [Authorize]
+        [HttpGet("info")]
+        public IActionResult GetUser()
         {
-            var user = _userInfoProvider.CurrentUser; // pozyskiwanie użytkownika z tokenu
-            return Ok($"Potwierdzono logowanie na konto '{user.UserName}' :D");
+            var user = _userInfoProvider.CurrentUser;
+            UserDto userProfileInfo = _userService.MapUserToUserDto(user);
+            return Ok(userProfileInfo);
         }
     }
 }
