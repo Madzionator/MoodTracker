@@ -6,8 +6,7 @@ namespace MoodTracker.API.Database;
 public class DataContext : DbContext
 {
     public DbSet<User> Users { get; set; }
-
-    //public DbSet<Mood> Moods { get; set; }
+    public DbSet<Mood> Moods { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options)
         : base(options)

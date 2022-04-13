@@ -18,9 +18,8 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(connectionString)
 builder.Services.AddHostedService<DbMigrator>();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMoodService, MoodService>();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration).Assembly);
-
-//builder.Services.AddScoped<IMoodService, MoodService>();
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<IUserInfoProvider, UserInfoProvider>();
@@ -116,7 +115,6 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsJsonAsync(new { Error = "Błąd serwera" });
     }
 });
-
 
 app.MapControllers();
 

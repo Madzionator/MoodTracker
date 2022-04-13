@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Interfaces;
@@ -10,19 +10,17 @@ namespace MoodTracker.API.Controllers
     public class MoodController : Controller
     {
         private readonly IMoodService _moodService;
-        private readonly IUserInfoProvider _userInfoProvider;
 
-        public MoodController(IUserInfoProvider userInfoProvider, IMoodService moodService)
+        public MoodController(IMoodService moodService)
         {
             _moodService = moodService;
-            _userInfoProvider = userInfoProvider;
         }
 
         [Authorize]
         [HttpPost("add")]
         public IActionResult AddMood([FromBody] MoodDto moodDto)
         {
-            _moodService.AddMood(moodDto, _userInfoProvider.Id);
+            _moodService.AddMood(moodDto);
             return NoContent();
         }
 
@@ -30,10 +28,8 @@ namespace MoodTracker.API.Controllers
         [HttpGet("get")]
         public IActionResult GetMoods()
         {
-            var moods = _moodService.GetMoods(_userInfoProvider.Id);
+            var moods = _moodService.GetMoods();
             return Ok(moods);
         }
     }
 }
-
-*/
