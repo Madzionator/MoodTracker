@@ -4,6 +4,6 @@ namespace MoodTracker.API.Interfaces;
 
 public interface IMoodService
 {
-    void AddMood(MoodDto dto);
+    void AddMood(MoodAddDto dto);
     IList<MoodDto> GetMoods();
 }

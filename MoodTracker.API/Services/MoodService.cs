@@ -19,7 +19,7 @@ internal class MoodService : IMoodService
         _userInfoProvider = userInfoProvider;
     }
 
-    public void AddMood(MoodDto dto)
+    public void AddMood(MoodAddDto dto)
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
@@ -27,17 +27,33 @@ internal class MoodService : IMoodService
             throw new UserIdNotFoundException();
         }
 
-        if (_context.Moods
-            .Where(x => x.UserId == userId)
-            .Any(x => x.DateTime.Date == dto.DateTime.Date))
+        var moods = _context.Moods
+            .Where(x => x.UserId == userId && x.DateTime == dto.DateTime)
+            .ToList();
+
+        var catIdList = new List<int>();
+
+        foreach (var val in dto.Values)
         {
-            //todo: do update instead of that
-            throw new MoodForTodayAlreadyExistException();
+            if(catIdList.Contains(val.CategoryId))
+                continue;
+
+            catIdList.Add(val.CategoryId);
+            var md = moods.Find(x => x.CategoryId == val.CategoryId);
+            if (md is null)
+            {
+                md = _mapper.Map<Mood>(val);
+                md.UserId = (int)userId;
+                md.DateTime = dto.DateTime;
+                _context.Moods.Add(md);
+            }
+            else
+            {
+                md.Value = val.Value;
+                _context.Moods.Update(md);
+            }
         }
 
-        var mood = _mapper.Map<Mood>(dto);
-        mood.UserId = userId ?? -1;
-        _context.Moods.Add(mood);
         _context.SaveChanges();
     }
 

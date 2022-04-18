@@ -12,5 +12,6 @@ public class MapperConfiguration : Profile
         CreateMap<User, UserInfoDto>().ReverseMap();
         CreateMap<User, UserEditDto>().ReverseMap();
         CreateMap<Mood, MoodDto>().ReverseMap();
+        CreateMap<Mood, MoodValueDto>().ReverseMap();
     }
 }
