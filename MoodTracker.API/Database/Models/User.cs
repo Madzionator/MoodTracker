@@ -15,6 +15,7 @@ public class User : ICreatedAt, IModifiedAt
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
     public ICollection<Mood> Moods { get; set; }
+    public ICollection<Category> Categories { get; set; }
 }
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
