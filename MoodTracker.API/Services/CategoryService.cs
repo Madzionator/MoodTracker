@@ -18,7 +18,7 @@ internal class CategoryService : ICategoryService
         _context = context;
     }
 
-    public void AddCategory(List<int> catId)
+    public void AddCategory(List<int> dto)
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
@@ -31,15 +31,14 @@ internal class CategoryService : ICategoryService
             .Select(c => c.CategoryId)
             .ToList();
 
-        var catg = new Category();
-        foreach (var item in catId)
-        {
-            if (categories.Contains(item))
-                continue;
-            catg.CategoryId = item;
-            catg.UserId = (int)userId;
-            _context.Categories.Add(catg); 
-        }
+        foreach (var item in dto.Where(item => !categories.Contains(item)))
+            _context.Categories.Add(new Category() { CategoryId = item, UserId = (int)userId });
+
+        foreach (var del in from cat in categories
+                            where !dto.Contains(cat)
+                            select _context.Categories.First(x => x.UserId == userId && x.CategoryId == cat))
+            _context.Categories.Remove(del);
+
         _context.SaveChanges();
     }
 

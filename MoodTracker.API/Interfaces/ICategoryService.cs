@@ -2,6 +2,6 @@
 
 public interface ICategoryService
 {
-    void AddCategory(List<int> catId);
+    void AddCategory(List<int> dto);
     List<int> GetCategories();
 }
