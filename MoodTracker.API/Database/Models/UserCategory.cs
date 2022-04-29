@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MoodTracker.API.Database.Models;
 
-public class Category
+public class UserCategory
 {
     public int Id { get; set; }
     public int UserId { get; set; }
@@ -11,9 +11,9 @@ public class Category
     public int CategoryId { get; set; }
 }
 
-public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+public class UserCategoryConfiguration : IEntityTypeConfiguration<UserCategory>
 {
-    public void Configure(EntityTypeBuilder<Category> category)
+    public void Configure(EntityTypeBuilder<UserCategory> category)
     {
         category.HasKey(x => x.Id)
             .IsClustered(false);

@@ -7,11 +7,11 @@ namespace MoodTracker.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CategoryController : Controller
+    public class UserCategoryController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IUserCategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public UserCategoryController(IUserCategoryService categoryService)
         {
             _categoryService = categoryService;
         }

@@ -11,7 +11,7 @@ public static class InterfaceRegistry
             .AddScoped<IUserService, UserService>()
             .AddScoped<IMoodService, MoodService>()
             .AddScoped<IHashService, HashService>()
-            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IUserCategoryService, UserCategoryService>()
             .AddScoped<IUserInfoProvider, UserInfoProvider>()
             .AddScoped<ErrorHandlingMiddleware>()
             .AddSingleton<IAuthManager, AuthManager>()

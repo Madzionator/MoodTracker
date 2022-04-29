@@ -1,6 +1,6 @@
 ﻿namespace MoodTracker.API.Interfaces;
 
-public interface ICategoryService
+public interface IUserCategoryService
 {
     void AddCategory(List<int> dto);
     List<int> GetCategories();

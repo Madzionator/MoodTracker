@@ -7,12 +7,12 @@ using MoodTracker.API.Interfaces;
 
 namespace MoodTracker.API.Services;
 
-internal class CategoryService : ICategoryService
+internal class UserCategoryService : IUserCategoryService
 {
     private readonly DataContext _context;
     private readonly IUserInfoProvider _userInfoProvider;
 
-    public CategoryService(DataContext context, IUserInfoProvider userInfoProvider)
+    public UserCategoryService(DataContext context, IUserInfoProvider userInfoProvider)
     {
         _userInfoProvider = userInfoProvider;
         _context = context;
@@ -26,18 +26,18 @@ internal class CategoryService : ICategoryService
             throw new UserIdNotFoundException();
         }
 
-        var categories = _context.Categories
+        var categories = _context.UserCategories
             .Where(x => x.UserId == userId)
             .Select(c => c.CategoryId)
             .ToList();
 
         foreach (var item in dto.Where(item => !categories.Contains(item)))
-            _context.Categories.Add(new Category() { CategoryId = item, UserId = (int)userId });
+            _context.UserCategories.Add(new UserCategory() { CategoryId = item, UserId = (int)userId });
 
         foreach (var del in from cat in categories
                             where !dto.Contains(cat)
-                            select _context.Categories.First(x => x.UserId == userId && x.CategoryId == cat))
-            _context.Categories.Remove(del);
+                            select _context.UserCategories.First(x => x.UserId == userId && x.CategoryId == cat))
+            _context.UserCategories.Remove(del);
 
         _context.SaveChanges();
     }
@@ -50,7 +50,7 @@ internal class CategoryService : ICategoryService
             throw new UserIdNotFoundException();
         }
 
-        var categories = _context.Categories
+        var categories = _context.UserCategories
             .Where(c => c.UserId == userId)
             .Select(c => c.CategoryId)
             .ToList();
