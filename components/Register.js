@@ -1,11 +1,24 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
+import React, { useState } from 'react'
 import Header from './Header';
 import { LinearGradient } from 'expo-linear-gradient'
 import Btn from './Btn';
 import Theme from '../Theme'
 
-const Register = () => {
+
+export default function Register() {
+
+  const [password, setPassword] = useState('')
+  const [confPassword, setConfPassword] = useState('')
+
+  const valPass = () => {
+    if (password != confPassword) {
+      alert("Podane hasła nie są identyczne")
+    }
+    else {
+    }
+  }
+
   return (
     <LinearGradient
     colors={[Theme.background, Theme.backgroundGradient]}
@@ -27,11 +40,17 @@ const Register = () => {
         style={styles.input}
         title="haslo"
         placeholder='Hasło'
+        type="password"
+        secureTextEntry={true}
+        onChangeText={(password) => setPassword(password)}
         />
         <TextInput
         style={styles.input}
-        title="powtorz haslo"
+        title="powtorzHaslo"
         placeholder='Powtórz hasło'
+        type="password"
+        secureTextEntry={true}
+        onChangeText={(confPassword) => setConfPassword(confPassword)}
         />
         <TextInput
         style={styles.input}
@@ -39,14 +58,11 @@ const Register = () => {
         placeholder='Bio'
         multiline = {true}
         numberOfLines = {8}/>
-        <Btn title='Zarejestruj' style={styles.btn}/>
+        <Btn title='Zatwierdź' style={styles.btn} onPress={() => valPass()}/>
       </View>
     </LinearGradient>
   );
 }
-
-
-export default Register
 
 
 const styles = StyleSheet.create({
