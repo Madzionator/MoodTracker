@@ -14,14 +14,16 @@ internal class UserService : IUserService
     private readonly IAuthManager _authManager;
     private readonly IHashService _hashService;
     private readonly IUserInfoProvider _userInfoProvider;
+    private readonly IUserCategoryService _userCategoryService;
 
-    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService, IUserInfoProvider userInfoProvider)
+    public UserService(DataContext context, IMapper mapper, IAuthManager authManager, IHashService hashService, IUserInfoProvider userInfoProvider, IUserCategoryService userCategoryService)
     {
         _context = context;
         _mapper = mapper;
         _authManager = authManager;
         _hashService = hashService;
         _userInfoProvider = userInfoProvider;
+        _userCategoryService = userCategoryService;
     }
 
     public void CreateUser(UserRegDto userRegDto)
@@ -40,6 +42,8 @@ internal class UserService : IUserService
         user.Password = _hashService.Hash(userRegDto.Password);
         _context.Users.Add(user);
         _context.SaveChanges();
+
+        _userCategoryService.AddCategory(new List<int>() { 1, 2, 3, 4, 5, 6, 7 }, user.Id);
 
         //todo?: automatically login after registration
     }

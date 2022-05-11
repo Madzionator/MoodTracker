@@ -42,6 +42,14 @@ internal class UserCategoryService : IUserCategoryService
         _context.SaveChanges();
     }
 
+    public void AddCategory(List<int> dto, int userId)
+    {
+        foreach (var item in dto)
+            _context.UserCategories.Add(new UserCategory() { CategoryId = item, UserId = (int)userId });
+
+        _context.SaveChanges();
+    }
+
     public List<int> GetCategories()
     {
         var userId = _userInfoProvider.Id;
