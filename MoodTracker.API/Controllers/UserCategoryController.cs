@@ -17,7 +17,7 @@ namespace MoodTracker.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("add")]
+        [HttpPost]
         public IActionResult AddCategory([FromBody] List<int> dto)
         {
             _categoryService.AddCategory(dto);
@@ -25,7 +25,7 @@ namespace MoodTracker.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("get")]
+        [HttpGet]
         public IActionResult GetCategories()
         {
             var categories = _categoryService.GetCategories();

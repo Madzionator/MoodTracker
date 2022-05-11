@@ -8,4 +8,5 @@ public interface IUserService
     void CreateUser(UserRegDto userRegDto);
     string Login(UserLoginDto dto);
     UserInfoDto GetInfo();
+    void UpdateInfo(UserEditDto dto);
 }
