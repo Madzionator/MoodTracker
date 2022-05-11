@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
+import Header from './Header';
 import { useState } from 'react';
 import Btn from './Btn';
 import Theme from '../Theme'
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Login(props) {
   const [login,setLogin] = useState("")
@@ -42,8 +45,8 @@ export default function Login(props) {
     colors={[Theme.background, Theme.backgroundGradient]}
     style={styles.container}
     >
-      <View style={{marginBottom:'40%', width:'80%'}}>
-        <Text style={styles.titleText}>Mood Tracker</Text>
+      <View style={{marginBottom:'40%'}}>
+        <Header style = {{marginBottom:40}}/>
         <TextInput
           style={styles.input}
           //onChangeText={onChangeText}
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     paddingTop:30,
-    justifyContent:'space-around',
+    justifyContent:'space-around'
   },
   input: {
     backgroundColor: 'white',

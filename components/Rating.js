@@ -24,26 +24,29 @@ const Rating = (props) => {
   }
 
   return (
-    <LinearGradient
-    colors={[Theme.background, Theme.backgroundGradient]}
-    style={styles.container}
-    >
-      <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
-      <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
-      <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
-      <RNPickerSelect
-            value={value}
-            onValueChange={(value) =>chandleChange(value)}
-            placeholder = {{}}
-            style={pickerStyles}
-            items={[
-                { label: 'Dziś', value: '1' },
-                { label: 'Wczoraj', value: '2' },
-                { label: 'Dwa dni temu', value: '3' },
-            ]}
-        />
-      <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
-    </LinearGradient>
+    <View style = {{flex:1}}>
+      <LinearGradient
+      colors={[Theme.background, Theme.backgroundGradient]}
+      style={styles.container}
+      >
+        <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
+        <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
+        <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
+        <RNPickerSelect
+              value={value}
+              onValueChange={(value) =>chandleChange(value)}
+              placeholder = {{}}
+              style={pickerStyles}
+              items={[
+                  { label: 'Dziś', value: '1' },
+                  { label: 'Wczoraj', value: '2' },
+                  { label: 'Dwa dni temu', value: '3' },
+              ]}
+          />
+        <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
+      </LinearGradient>
+    </View>
+
   )
 }
 
@@ -68,10 +71,12 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    paddingTop:40
+    paddingTop:40,
+    marginBottom:0,
+    paddingBottom:0
   },
   btn:{
-    marginBottom:20,
+   // marginBottom:20,
     backgroundColor:Theme.background,
   },
   select:{

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     title:{
         textAlign:'center',
         fontSize:24,
-        fontWeight:"700",
+        fontWeight:'700',
         color:'white'
     }
 })
