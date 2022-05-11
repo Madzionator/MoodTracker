@@ -5,15 +5,15 @@ namespace MoodTracker.API.DTO;
 public class UserInfoDto
 {
     public string UserName { get; set; }
-    public string EmailAddress { get; set; }
-    public string? Bio { get; set; }
+    public string Bio { get; set; }
     public bool IsPrivate { get; set; }
 }
 
+
 public class UserEditDto
 {
-    public string? Bio { get; set; }
-    public bool IsPrivate { get; set; }
+    public string Bio { get; set; }
+    public bool? IsPrivate { get; set; }
 }
 
 public class UserRegDto
@@ -21,6 +21,7 @@ public class UserRegDto
     public string UserName { get; set; }
     public string EmailAddress { get; set; }
     public string Password { get; set; }
+    public string Bio { get; set; }
 }
 
 public class UserLoginDto
@@ -46,5 +47,6 @@ public class UserRegDtoValidator : AbstractValidator<UserRegDto>
             .Matches(rule).WithMessage("Dozwolone litery, cyfry oraz znaki: _ - .");
         RuleFor(user => user.EmailAddress).EmailAddress().NotEmpty();
         RuleFor(user => user.Password).MaximumLength(128).MinimumLength(8).NotEmpty();
+        RuleFor(user => user.Bio).MaximumLength(512);
     }
 }

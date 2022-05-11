@@ -47,15 +47,12 @@ internal class UserService : IUserService
     public string Login(UserLoginDto dto)
     {
         var user = _context.Users.FirstOrDefault(x => x.UserName == dto.Login || x.EmailAddress == dto.Login);
+
         if (user is null)
-        {
             throw new UserNotFoundException(dto.Login);
-        }
 
         if (!_hashService.Check(user.Password, dto.Password))
-        {
             throw new UserWrongPasswordException();
-        }
 
         var token = _authManager.CreateToken(user);
         return token;
@@ -64,7 +61,22 @@ internal class UserService : IUserService
     public UserInfoDto GetInfo()
     {
         var user = _userInfoProvider.CurrentUser;
+        if (user is null)
+            throw new UserNotFoundException("");
+
         var info = _mapper.Map<UserInfoDto>(user);
         return info;
+    }
+
+    public void UpdateInfo(UserEditDto dto)
+    {
+        var user = _userInfoProvider.CurrentUser;
+        if (user is null)
+            throw new UserNotFoundException("");
+
+        user = _mapper.Map(dto, user);
+
+        _context.Users.Update(user);
+        _context.SaveChanges();
     }
 }

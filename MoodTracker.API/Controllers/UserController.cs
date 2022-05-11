@@ -34,11 +34,20 @@ namespace MoodTracker.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("info")]
-        public IActionResult GetUser()
+        [HttpGet]
+        public IActionResult GetInfo()
         {
-            var userInfo = _userService.GetInfo();
-            return Ok(userInfo);
+            var info = _userService.GetInfo();
+            return Ok(info);
+        }
+
+        [Authorize]
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult EditInfo([FromBody] UserEditDto userEditDto)
+        {
+            _userService.UpdateInfo(userEditDto);
+            return NoContent();
         }
     }
 }
