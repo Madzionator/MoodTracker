@@ -73,4 +73,64 @@ internal class MoodService : IMoodService
 
         return moods;
     }
+
+    public IList<MoodWeekDto> GetWeek()
+    {
+        var userId = _userInfoProvider.Id;
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+
+        var categories = _context.UserCategories
+            .Where(x => x.UserId == userId)
+            .Select(c => c.CategoryId)
+            .ToList();
+        var mWeek = new List<MoodWeekDto>();
+
+        foreach(var cat in categories)
+        {
+            var values = _context.Moods
+            .Where(x => x.UserId == userId
+                && x.CategoryId == cat
+                && x.DateTime <= DateTime.Today
+                && x.DateTime >= DateTime.Today.AddDays(-6))
+            .OrderBy(x => x.DateTime)
+            .Select(v => v.Value)
+            .ToList();
+            var weekdto = new MoodWeekDto { CategoryId = cat, Values = values };
+            mWeek.Add(weekdto);
+        }
+        return mWeek;
+    }
+
+    public IList<MoodWeekDto> GetMonth()
+    {
+        var userId = _userInfoProvider.Id;
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+
+        var categories = _context.UserCategories
+            .Where(x => x.UserId == userId)
+            .Select(c => c.CategoryId)
+            .ToList();
+        var mWeek = new List<MoodWeekDto>();
+
+        foreach (var cat in categories)
+        {
+            var values = _context.Moods
+            .Where(x => x.UserId == userId
+                && x.CategoryId == cat
+                && x.DateTime <= DateTime.Today
+                && x.DateTime >= DateTime.Today.AddDays(-30))
+            .OrderBy(x => x.DateTime)
+            .Select(v => v.Value)
+            .ToList();
+            var weekdto = new MoodWeekDto { CategoryId = cat, Values = values };
+            mWeek.Add(weekdto);
+        }
+        return mWeek;
+    }
 }

@@ -16,5 +16,6 @@ public class MapperConfiguration : Profile
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
         CreateMap<Mood, MoodDto>().ReverseMap();
         CreateMap<Mood, MoodValueDto>().ReverseMap();
+        CreateMap<Mood, MoodWeekDto>().ReverseMap(); 
     }
 }
