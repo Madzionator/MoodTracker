@@ -57,23 +57,6 @@ internal class MoodService : IMoodService
         _context.SaveChanges();
     }
 
-    public IList<MoodDto> GetMoods()
-    {
-        var userId = _userInfoProvider.Id;
-        if (userId == null)
-        {
-            throw new UserIdNotFoundException();
-        }
-
-        var moods = _context.Moods
-        .Where(x => x.UserId == userId)
-        .OrderByDescending(x => x.DateTime)
-        .Select(x => _mapper.Map<MoodDto>(x))
-        .ToList();
-
-        return moods;
-    }
-
     public IList<MoodWeekDto> GetWeek()
     {
         var userId = _userInfoProvider.Id;
