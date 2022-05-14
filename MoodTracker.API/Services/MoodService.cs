@@ -35,7 +35,7 @@ internal class MoodService : IMoodService
 
         foreach (var val in dto.Values)
         {
-            if(catIdList.Contains(val.CategoryId))
+            if (catIdList.Contains(val.CategoryId))
                 continue;
 
             catIdList.Add(val.CategoryId);
@@ -59,7 +59,7 @@ internal class MoodService : IMoodService
 
     public IList<MoodWeekDto> GetWeek()
     {
-        return GetMoods(6);
+        return GetMoods(7);
     }
 
     public IList<MoodWeekDto> GetMonth()
@@ -83,7 +83,7 @@ internal class MoodService : IMoodService
         return categories.Select(cat => new MoodWeekDto
         {
             CategoryId = cat,
-            Values = Enumerable.Range(-days, days + 1)
+            Values = Enumerable.Range(-days +1, days)
             .Select(i => _context.Moods.FirstOrDefault(x =>
                 x.UserId == userId && x.CategoryId == cat && x.DateTime == DateTime.Today.AddDays(i)))
             .Select(abc => abc?.Value)
