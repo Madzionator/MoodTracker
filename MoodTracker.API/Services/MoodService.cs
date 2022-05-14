@@ -35,7 +35,7 @@ internal class MoodService : IMoodService
 
         foreach (var val in dto.Values)
         {
-            if(catIdList.Contains(val.CategoryId))
+            if (catIdList.Contains(val.CategoryId))
                 continue;
 
             catIdList.Add(val.CategoryId);
@@ -57,7 +57,17 @@ internal class MoodService : IMoodService
         _context.SaveChanges();
     }
 
-    public IList<MoodDto> GetMoods()
+    public IList<MoodWeekDto> GetWeek()
+    {
+        return GetMoods(7);
+    }
+
+    public IList<MoodWeekDto> GetMonth()
+    {
+        return GetMoods(30);
+    }
+
+    private IList<MoodWeekDto> GetMoods(int days)
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
@@ -65,12 +75,19 @@ internal class MoodService : IMoodService
             throw new UserIdNotFoundException();
         }
 
-        var moods = _context.Moods
-        .Where(x => x.UserId == userId)
-        .OrderByDescending(x => x.DateTime)
-        .Select(x => _mapper.Map<MoodDto>(x))
-        .ToList();
+        var categories = _context.UserCategories
+           .Where(x => x.UserId == userId)
+           .Select(c => c.CategoryId)
+           .ToList();
 
-        return moods;
+        return categories.Select(cat => new MoodWeekDto
+        {
+            CategoryId = cat,
+            Values = Enumerable.Range(-days +1, days)
+            .Select(i => _context.Moods.FirstOrDefault(x =>
+                x.UserId == userId && x.CategoryId == cat && x.DateTime == DateTime.Today.AddDays(i)))
+            .Select(abc => abc?.Value)
+            .ToList()
+        }).ToList();
     }
 }

@@ -25,11 +25,19 @@ namespace MoodTracker.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("all")]
-        public IActionResult GetMoods()
+        [HttpGet("week")]
+        public IActionResult GetWeek()
         {
-            var moods = _moodService.GetMoods();
-            return Ok(moods);
+            var weekmoods = _moodService.GetWeek();
+            return Ok(weekmoods);
+        }
+
+        [Authorize]
+        [HttpGet("month")]
+        public IActionResult GetMonth()
+        {
+            var monthmoods = _moodService.GetMonth();
+            return Ok(monthmoods);
         }
     }
 }
