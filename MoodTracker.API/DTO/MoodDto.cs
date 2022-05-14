@@ -22,5 +22,5 @@ public class MoodValueDto
 public class MoodWeekDto
 {
     public int CategoryId { get; set; }
-    public List<int> Values { get; set; }
+    public List<int?> Values { get; set; }
 }

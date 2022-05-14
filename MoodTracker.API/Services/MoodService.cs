@@ -59,63 +59,35 @@ internal class MoodService : IMoodService
 
     public IList<MoodWeekDto> GetWeek()
     {
-        var userId = _userInfoProvider.Id;
-        if (userId == null)
-        {
-            throw new UserIdNotFoundException();
-        }
-        var mWeek = new List<MoodWeekDto>();
-
-        var categories = _context.UserCategories
-            .Where(x => x.UserId == userId)
-            .Select(c => c.CategoryId)
-            .ToList();
-
-        foreach(var cat in categories)
-        {
-            var values = new List<int>();
-            for(int i = -6; i <= 0 ; i++)
-            {
-                values.Add(_context.Moods
-                    .Where(x => x.UserId == userId
-                        && x.CategoryId == cat
-                        && x.DateTime == DateTime.Today.AddDays(i))
-                    .Select(v => v.Value)
-                    .FirstOrDefault());
-            }
-            mWeek.Add(new MoodWeekDto { CategoryId = cat, Values = values });
-        }
-        return mWeek;
+        return GetMoods(6);
     }
 
     public IList<MoodWeekDto> GetMonth()
+    {
+        return GetMoods(30);
+    }
+
+    private IList<MoodWeekDto> GetMoods(int days)
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
         {
             throw new UserIdNotFoundException();
         }
-        var mWeek = new List<MoodWeekDto>();
 
         var categories = _context.UserCategories
-            .Where(x => x.UserId == userId)
-            .Select(c => c.CategoryId)
-            .ToList();
+           .Where(x => x.UserId == userId)
+           .Select(c => c.CategoryId)
+           .ToList();
 
-        foreach (var cat in categories)
+        return categories.Select(cat => new MoodWeekDto
         {
-            var values = new List<int>();
-            for (int i = -30; i <= 0; i++)
-            {
-                values.Add(_context.Moods
-                    .Where(x => x.UserId == userId
-                        && x.CategoryId == cat
-                        && x.DateTime == DateTime.Today.AddDays(i))
-                    .Select(v => v.Value)
-                    .FirstOrDefault());
-            }
-            mWeek.Add(new MoodWeekDto { CategoryId = cat, Values = values });
-        }
-        return mWeek;
+            CategoryId = cat,
+            Values = Enumerable.Range(-days, days + 1)
+            .Select(i => _context.Moods.FirstOrDefault(x =>
+                x.UserId == userId && x.CategoryId == cat && x.DateTime == DateTime.Today.AddDays(i)))
+            .Select(abc => abc?.Value)
+            .ToList()
+        }).ToList();
     }
 }
