@@ -81,25 +81,26 @@ internal class MoodService : IMoodService
         {
             throw new UserIdNotFoundException();
         }
+        var mWeek = new List<MoodWeekDto>();
 
         var categories = _context.UserCategories
             .Where(x => x.UserId == userId)
             .Select(c => c.CategoryId)
             .ToList();
-        var mWeek = new List<MoodWeekDto>();
 
         foreach(var cat in categories)
         {
-            var values = _context.Moods
-            .Where(x => x.UserId == userId
-                && x.CategoryId == cat
-                && x.DateTime <= DateTime.Today
-                && x.DateTime >= DateTime.Today.AddDays(-6))
-            .OrderBy(x => x.DateTime)
-            .Select(v => v.Value)
-            .ToList();
-            var weekdto = new MoodWeekDto { CategoryId = cat, Values = values };
-            mWeek.Add(weekdto);
+            var values = new List<int>();
+            for(int i = -6; i <= 0 ; i++)
+            {
+                values.Add(_context.Moods
+                    .Where(x => x.UserId == userId
+                        && x.CategoryId == cat
+                        && x.DateTime == DateTime.Today.AddDays(i))
+                    .Select(v => v.Value)
+                    .FirstOrDefault());
+            }
+            mWeek.Add(new MoodWeekDto { CategoryId = cat, Values = values });
         }
         return mWeek;
     }
@@ -111,25 +112,26 @@ internal class MoodService : IMoodService
         {
             throw new UserIdNotFoundException();
         }
+        var mWeek = new List<MoodWeekDto>();
 
         var categories = _context.UserCategories
             .Where(x => x.UserId == userId)
             .Select(c => c.CategoryId)
             .ToList();
-        var mWeek = new List<MoodWeekDto>();
 
         foreach (var cat in categories)
         {
-            var values = _context.Moods
-            .Where(x => x.UserId == userId
-                && x.CategoryId == cat
-                && x.DateTime <= DateTime.Today
-                && x.DateTime >= DateTime.Today.AddDays(-30))
-            .OrderBy(x => x.DateTime)
-            .Select(v => v.Value)
-            .ToList();
-            var weekdto = new MoodWeekDto { CategoryId = cat, Values = values };
-            mWeek.Add(weekdto);
+            var values = new List<int>();
+            for (int i = -30; i <= 0; i++)
+            {
+                values.Add(_context.Moods
+                    .Where(x => x.UserId == userId
+                        && x.CategoryId == cat
+                        && x.DateTime == DateTime.Today.AddDays(i))
+                    .Select(v => v.Value)
+                    .FirstOrDefault());
+            }
+            mWeek.Add(new MoodWeekDto { CategoryId = cat, Values = values });
         }
         return mWeek;
     }
