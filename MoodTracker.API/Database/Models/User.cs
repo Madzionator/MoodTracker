@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MoodTracker.API.Database.Models;
 
+[DebuggerDisplay("User: {Id} {UserName}")]
 public class User : ICreatedAt, IModifiedAt
 {
     public int Id { get; set; }
@@ -16,6 +18,8 @@ public class User : ICreatedAt, IModifiedAt
     public DateTime? ModifiedAt { get; set; }
     public ICollection<Mood> Moods { get; set; }
     public ICollection<UserCategory> Categories { get; set; }
+    public ICollection<Follow> FollowedMe { get; set; }
+    public ICollection<Follow> FollowedByMe { get; set; }
 }
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -43,6 +47,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         user.Property(x => x.IsPrivate)
             .IsRequired()
             .HasDefaultValue(false);
+
+        user.HasMany(x => x.FollowedByMe)
+            .WithOne(x => x.Follower)
+            .HasForeignKey(x => x.FollowerId)
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+        user.HasMany(x => x.FollowedMe)
+            .WithOne(x => x.FollowedUser)
+            .HasForeignKey(x => x.FollowedUserId)
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
 }
-

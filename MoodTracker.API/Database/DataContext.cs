@@ -8,6 +8,7 @@ public class DataContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Mood> Moods { get; set; }
     public DbSet<UserCategory> UserCategories { get; set; }
+    public DbSet<Follow> Follows { get; set; }
     public DataContext(DbContextOptions<DataContext> options)
         : base(options)
     {
