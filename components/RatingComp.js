@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor:Theme.lightBackground,
         borderRadius:5,
-        padding:5
+        padding:5,
+        marginVertical:10
     },
     EmojiContainer: {
         flexDirection:'row',

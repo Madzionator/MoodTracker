@@ -11,7 +11,7 @@ const Settings = (props) => {
   const [text, onChangeText] = useState()
   const [hidden, setHidden] = useState(false)
   const [changed, setChanged] = useState(false)
-  const [selected, setSelected] = useState([true,true,true,true,true,true,true])
+  const [selected, setSelected] = useState([true,true,true,true,true,true,true]) //index +1
   const handleChange = (id) =>{
     let tmp = selected
     selected[id] = !selected[id]
@@ -39,7 +39,7 @@ const Settings = (props) => {
           {wyborKategori}
         </View>
         <View style={[styles.section,{marginTop:10}]}>
-          <Text style = {{color:'white', fontWeight:'600'}}>Ukrycie statystyk</Text>
+          <Text style = {{color:'white', fontWeight:'600'}}>Statystyki prywatne</Text>
           <Checkbox style={styles.checkbox} value={hidden} onValueChange={setHidden} />
         </View>
         <TextInput

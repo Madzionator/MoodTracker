@@ -5,6 +5,7 @@ import RatingComp from './RatingComp'
 import RNPickerSelect from 'react-native-picker-select'
 import Btn from './Btn'
 import Theme from '../Theme'
+import Kategorie from '../Kategorie'
 
 const Rating = (props) => {
   const now = new Date();
@@ -16,12 +17,19 @@ const Rating = (props) => {
     1:null,
     2:null,
     3: null,
+    4:null,
+    5:null,
+    6: null,
+    7:null,
     date:date
 })
   const chandleChange = (value) =>{
     value == '1' ? setDate(now) : value == '2' ? setDate(yesterday) : setDate(twoDays)
     setValue(value)
   }
+  const ratingList = Kategorie.map((item, id)=>
+    <RatingComp title = {item} id = {id} onPress = {setAnswer}/>
+  )
 
   return (
     <View style = {{flex:1}}>
@@ -29,9 +37,7 @@ const Rating = (props) => {
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
       >
-        <RatingComp title = 'Rodzina' id = {1} onPress = {setAnswer}/>
-        <RatingComp title = 'Studia' id = {2} onPress = {setAnswer}/>
-        <RatingComp title = 'Hobby' id = {3} onPress = {setAnswer}/>
+        {ratingList}
         <RNPickerSelect
               value={value}
               onValueChange={(value) =>chandleChange(value)}
@@ -78,6 +84,7 @@ const styles = StyleSheet.create({
   btn:{
    // marginBottom:20,
     backgroundColor:Theme.background,
+    marginVertical:10
   },
   select:{
     width:'90%'
