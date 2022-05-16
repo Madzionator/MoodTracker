@@ -25,7 +25,7 @@ export default function Home(props) {
     >
       <Header/>
       <Btn title = 'Zaloguj' style={styles.btn} onPress = {()=>props.setScene('Login')}/>
-      <Btn title = 'Zarejestruj' style={[styles.btn]} onPress = {()=>props.setScene('Register')}/>
+      <Btn title = 'Zarejestruj' style={[styles.btn, Theme.shadow]} onPress = {()=>props.setScene('Register')}/>
       <TouchableOpacity 
         style={styles.footer}
         onPress={()=>props.setScene('About')}>
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn:{
+    fontFamily:'cursive',
     backgroundColor:Theme.background
   },
   footer:{
