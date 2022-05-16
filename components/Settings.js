@@ -6,23 +6,24 @@ import Header from './Header'
 import Btn from './Btn'
 import Checkbox from 'expo-checkbox';
 import { TabRouter } from '@react-navigation/native'
-
+import Kategorie from '../Kategorie'
 const Settings = (props) => {
   const [text, onChangeText] = useState()
   const [hidden, setHidden] = useState(false)
-  const [categories, setCategories] = useState({
-    'samopoczucie':true,
-    'rodzina':true,
-
-  })
-  const handleChange = () =>{
-
+  const [changed, setChanged] = useState(false)
+  const [selected, setSelected] = useState([true,true,true,true,true,true,true])
+  const handleChange = (id) =>{
+    let tmp = selected
+    selected[id] = !selected[id]
+    setSelected(tmp)
+    console.log(selected)
+    setChanged(!changed)//Żeby wywołać reload komponentu
   }
-  const kategorie = ['samopoczucie', 'rodzina', 'praca', 'szkola', 'hobby']
-  const wyborKategori = kategorie.map((item)=>
-    <View style={styles.section}>
+  
+  const wyborKategori = Kategorie.map((item, index)=>
+    <View style={styles.section} key = {index}>
       <Text style = {{color:'white', fontWeight:'600'}}>{item}</Text>
-      <Checkbox style={styles.checkbox} value={true} onValueChange={handleChange} />
+      <Checkbox style={styles.checkbox} value={selected[index]} onValueChange={()=>handleChange(index)} />
     </View>
   )
   return (
@@ -31,16 +32,15 @@ const Settings = (props) => {
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
       >
-        <Header/>
+        <Header style = {{marginTop:5}}/>
         {/* Część do kategorii*/}
-        <View style={styles.section}>
+        <View>
+          <Text style = {{color:'white', fontWeight:'600', fontSize:24}}>Kategorie do oceny:</Text>
+          {wyborKategori}
+        </View>
+        <View style={[styles.section,{marginTop:10}]}>
           <Text style = {{color:'white', fontWeight:'600'}}>Ukrycie statystyk</Text>
           <Checkbox style={styles.checkbox} value={hidden} onValueChange={setHidden} />
-        </View>
-
-        <View>
-          <Text style = {{color:'white', fontWeight:'600'}}>Kategorie do oceny:</Text>
-          {wyborKategori}
         </View>
         <TextInput
           onChangeText={onChangeText}
@@ -50,7 +50,7 @@ const Settings = (props) => {
           multiline
         numberOfLines={8}
         />
-        <Btn title = 'Zapisz' style = {styles.btn}/>
+        <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{}/**Dodać pusha do api */}/>
       </LinearGradient>
     </ScrollView>
   )
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'center',
     padding:5,
   },
   checkbox:{
