@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
@@ -82,5 +84,13 @@ internal class UserService : IUserService
 
         _context.Users.Update(user);
         _context.SaveChanges();
+    }
+
+    public List<UserSearchDto> SearchUsers(string name)
+    {
+        return _context.Users
+            .Where(x => x.UserName.Contains(name))
+            .ProjectTo<UserSearchDto>(_mapper.ConfigurationProvider)
+            .ToList();
     }
 }

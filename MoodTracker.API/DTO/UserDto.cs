@@ -9,7 +9,6 @@ public class UserInfoDto
     public bool IsPrivate { get; set; }
 }
 
-
 public class UserEditDto
 {
     public string Bio { get; set; }
@@ -28,6 +27,12 @@ public class UserLoginDto
 {
     public string Login { get; set; }
     public string Password { get; set; }
+}
+
+public class UserSearchDto
+{
+    public int Id { get; set; }
+    public string UserName { get; set; }
 }
 
 public class UserEditDtoValidator : AbstractValidator<UserEditDto>

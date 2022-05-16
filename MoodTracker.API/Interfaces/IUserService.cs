@@ -9,4 +9,5 @@ public interface IUserService
     string Login(UserLoginDto dto);
     UserInfoDto GetInfo();
     void UpdateInfo(UserEditDto dto);
+    List<UserSearchDto> SearchUsers(string name);
 }

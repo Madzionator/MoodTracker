@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Interfaces;
 
@@ -48,6 +49,21 @@ namespace MoodTracker.API.Controllers
         {
             _userService.UpdateInfo(userEditDto);
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("search")]
+        public IActionResult SearchUsers([FromQuery] string name, [FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
+        {
+            if (name is null || name.Length is < 3 or > 128)
+            {
+                ModelState.AddModelError("Name",
+                    name is null ? "Nie podano nazwy." : $"Nazwa ma złą długość: {name.Length}.");
+                return apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
+            }
+            
+            var users = _userService.SearchUsers(name);
+            return Ok(users);
         }
     }
 }
