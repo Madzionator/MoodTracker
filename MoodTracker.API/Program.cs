@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoodTracker.API;
+using MoodTracker.API.Controllers;
 using MoodTracker.API.Database;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Infrastructure;

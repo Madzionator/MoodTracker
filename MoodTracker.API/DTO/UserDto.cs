@@ -29,7 +29,7 @@ public class UserLoginDto
     public string Password { get; set; }
 }
 
-public class UserSearchDto
+public class UserBaseDto
 {
     public int Id { get; set; }
     public string UserName { get; set; }
