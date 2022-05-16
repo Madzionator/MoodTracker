@@ -1,5 +1,4 @@
-﻿using MoodTracker.API.Database.Models;
-using MoodTracker.API.DTO;
+﻿using MoodTracker.API.DTO;
 
 namespace MoodTracker.API.Interfaces;
 

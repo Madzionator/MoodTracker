@@ -1,6 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using MicroElements.Swashbuckle.FluentValidation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MoodTracker.API;
 using MoodTracker.API.Database;
 using MoodTracker.API.DTO;

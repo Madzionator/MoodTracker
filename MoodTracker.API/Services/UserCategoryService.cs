@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using MoodTracker.API.Database;
+﻿using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
-using MoodTracker.API.DTO;
 using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
 
