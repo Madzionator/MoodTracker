@@ -65,7 +65,7 @@ export default function Login(props) {
           autoComplete = 'password'
           secureTextEntry={true}
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {handleLogin}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {/*handleLogin*/ ()=>props.setScene('Rating')}/>
       </View>
     </LinearGradient>
   );
