@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation;
@@ -55,6 +56,8 @@ public static class Extensions
     {
         services
             .AddControllers()
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
             .AddFluentValidation(fv =>
             {
                 fv.RegisterValidatorsFromAssemblyContaining<Program>();

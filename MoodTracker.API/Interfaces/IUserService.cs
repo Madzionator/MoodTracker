@@ -1,5 +1,4 @@
-﻿using MoodTracker.API.Database.Models;
-using MoodTracker.API.DTO;
+﻿using MoodTracker.API.DTO;
 
 namespace MoodTracker.API.Interfaces;
 
@@ -9,4 +8,5 @@ public interface IUserService
     string Login(UserLoginDto dto);
     UserInfoDto GetInfo();
     void UpdateInfo(UserEditDto dto);
+    List<UserBaseDto> SearchUsers(string name);
 }
