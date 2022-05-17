@@ -1,12 +1,12 @@
-﻿
-using MoodTracker.API.DTO;
+﻿using MoodTracker.API.DTO;
 
 public interface IFollowService
 {
-    List<UserBaseDto> WaitingFollowes();
+    List<UserBaseDto> WaitingFollows();
+    List<UserBaseDto> Following();
+    List<UserBaseDto> Followers();
     void AddFollow(int userId);
     void RemoveFollow(int userId);
     void RevokeFollower(int userId);
     void AcceptFollow(int userId);
-    void RejectFollow(int userId);
 }

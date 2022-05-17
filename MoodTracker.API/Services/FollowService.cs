@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using MoodTracker.API.Database;
 using MoodTracker.API.Database.Models;
@@ -19,27 +20,44 @@ internal class FollowService : IFollowService
         _context = context;
     }
 
-    public List<UserBaseDto> WaitingFollowes()
+    private List<UserBaseDto> GetFollowers(bool isAccepted)
     {
         var myId = _userInfoProvider.Id;
-        if (myId is null)
-            throw new UserIdNotFoundException();
 
         return _context.Follows
-            .Where(x => x.FollowedUserId == myId && x.IsAccepted == false)
+            .Where(x => x.FollowedUserId == (int)myId && x.IsAccepted == isAccepted)
             .Include(x => x.Follower)
             .Select(f => _mapper.Map<UserBaseDto>(f.Follower))
+            .ToList();
+    }
+
+    public List<UserBaseDto> WaitingFollows()
+    {
+        return GetFollowers(false);
+    }
+
+    public List<UserBaseDto> Followers()
+    {
+        return GetFollowers(true);
+    }
+
+    public List<UserBaseDto> Following()
+    {
+        var myId = _userInfoProvider.Id;
+
+        return _context.Follows
+            .Where(x => x.FollowerId == (int)myId && x.IsAccepted == true)
+            .Include(x => x.FollowedUser)
+            .Select(f => _mapper.Map<UserBaseDto>(f.FollowedUser))
             .ToList();
     }
 
     public void AddFollow(int userId)
     {
         var myId = _userInfoProvider.Id;
-        if (myId is null)
-            throw new UserIdNotFoundException();
 
         if (myId == userId)
-            throw new FollowSelfExistException();
+            throw new FollowSelfException();
 
         if (_context.Follows.Find(myId, userId) is not null)
             throw new FollowAlreadyExistException();
@@ -51,10 +69,11 @@ internal class FollowService : IFollowService
     public void RemoveFollow(int userId)
     {
         var myId = _userInfoProvider.Id;
-        if (myId is null)
-            throw new UserIdNotFoundException();
 
         var follow = _context.Follows.Find((int)myId, userId);
+        if (follow is null) 
+            throw new FollowNotExistException();
+
         _context.Follows.Remove(follow);
         _context.SaveChanges();
     }
@@ -62,10 +81,11 @@ internal class FollowService : IFollowService
     public void RevokeFollower(int userId)
     {
         var myId = _userInfoProvider.Id;
-        if (myId is null)
-            throw new UserIdNotFoundException();
 
         var follow = _context.Follows.Find(userId, (int)myId);
+        if (follow is null) 
+            throw new FollowNotExistException();
+
         _context.Follows.Remove(follow);
         _context.SaveChanges();
     }
@@ -73,8 +93,6 @@ internal class FollowService : IFollowService
     public void AcceptFollow(int userId)
     {
         var myId = _userInfoProvider.Id;
-        if (myId is null)
-            throw new UserIdNotFoundException();
 
         var follow = _context.Follows.Find(userId, (int)myId);
         if (follow is null)
@@ -83,10 +101,5 @@ internal class FollowService : IFollowService
         follow.IsAccepted = true;
         _context.Follows.Update(follow);
         _context.SaveChanges();
-    }
-
-    public void RejectFollow(int userId)
-    {
-        RevokeFollower(userId);
     }
 }

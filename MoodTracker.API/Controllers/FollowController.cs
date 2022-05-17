@@ -1,11 +1,5 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using MoodTracker.API.Database.Models;
-using MoodTracker.API.Interfaces;
-using MoodTracker.API.Migrations;
 
 namespace MoodTracker.API.Controllers
 {
@@ -16,6 +10,12 @@ namespace MoodTracker.API.Controllers
         Revoke,
         Accept,
         Reject
+    }
+    public enum GetFollowList
+    {
+        Waiting,
+        Following,
+        Followers
     }
 
     [ApiController]
@@ -30,10 +30,18 @@ namespace MoodTracker.API.Controllers
             _followService = followService;
         }
 
-        [HttpGet("waiting")]
-        public IActionResult GetWeek()
+        [HttpGet]
+
+        public IActionResult GetFollows([FromQuery] GetFollowList list)
         {
-            var users = _followService.WaitingFollowes();
+            var users = list switch
+                {
+                    GetFollowList.Waiting => _followService.WaitingFollows(),
+                    GetFollowList.Following => _followService.Following(),
+                    GetFollowList.Followers => _followService.Followers(),
+                        _ => throw new ArgumentOutOfRangeException(nameof(list), list, null)
+                };
+
             return Ok(users);
         }
 
@@ -46,7 +54,7 @@ namespace MoodTracker.API.Controllers
                 FollowAction.Unfollow => id => _followService.RemoveFollow(id),
                 FollowAction.Revoke => id => _followService.RevokeFollower(id),
                 FollowAction.Accept => id => _followService.AcceptFollow(id),
-                FollowAction.Reject => id => _followService.RejectFollow(id),
+                FollowAction.Reject => id => _followService.RevokeFollower(id),
                 _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
             };
 

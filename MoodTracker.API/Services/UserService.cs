@@ -5,6 +5,7 @@ using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
+using MoodTracker.API.Migrations;
 
 namespace MoodTracker.API.Services;
 
@@ -71,26 +72,6 @@ internal class UserService : IUserService
 
         var info = _mapper.Map<UserInfoDto>(user);
 
-        // ja usuwam kogos kogo ja obserwuje z apki
-        if (false)
-        {
-            var otherId = 11;
-
-            var follow = _context.Follows.Find(user.Id, otherId);
-            _context.Follows.Remove(follow);
-            _context.SaveChanges();
-        }
-
-        // uzytkownik 12 się sam usuwa (klika usun konto)
-        if(false)
-        {
-            var userId = 12;
-
-            var userr = _context.Users.Find(userId);
-            _context.Users.Remove(userr);
-            _context.SaveChanges();
-        }
-
         return info;
     }
 
@@ -108,9 +89,15 @@ internal class UserService : IUserService
 
     public List<UserBaseDto> SearchUsers(string name)
     {
-        return _context.Users
+        var users = _context.Users
             .Where(x => x.UserName.Contains(name))
             .ProjectTo<UserBaseDto>(_mapper.ConfigurationProvider)
             .ToList();
+
+        var user = users.FirstOrDefault(x => x.Id == (int)_userInfoProvider.Id);
+        if (user is not null)
+            users.Remove(user);
+
+        return users;
     }
 }
