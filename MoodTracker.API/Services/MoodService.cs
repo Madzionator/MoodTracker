@@ -90,4 +90,36 @@ internal class MoodService : IMoodService
             .ToList()
         }).ToList();
     }
+
+    public IList<MoodWeekDto> GetFollowMoods(int followUserId)
+    {
+        var userId = _userInfoProvider.Id;
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+
+        var followList = _context.Follows
+            .Where(x => x.FollowerId == userId)
+            .Select(f => f.FollowedUserId);
+
+        if (followList.Contains(followUserId))
+        {
+            var categories = _context.UserCategories
+           .Where(x => x.UserId == followUserId)
+           .Select(c => c.CategoryId)
+           .ToList();
+
+            return categories.Select(cat => new MoodWeekDto
+            {
+                CategoryId = cat,
+                Values = Enumerable.Range(-6, 7)
+                .Select(i => _context.Moods.FirstOrDefault(x =>
+                    x.UserId == followUserId && x.CategoryId == cat && x.DateTime == DateTime.Today.AddDays(i)))
+                .Select(abc => abc?.Value)
+                .ToList()
+            }).ToList();
+        }
+        return null;
+    }
 }
