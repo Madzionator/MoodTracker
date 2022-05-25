@@ -18,12 +18,23 @@ const Rating = (props) => {
   const [answer, setAnswer] = useState({
     1:null,
     2:null,
-    3: null,
+    3:null,
     4:null,
     5:null,
     6: null,
     7:null
 })
+  const data = [];
+  const createData = () =>
+  {
+    for(let i=1; i<=7; i++){
+      answer[i] != null ?
+      data.push(
+        {"categoryId":i,
+        "value":answer[i]
+      }) : null
+    }
+  }
   const chandleChange = (value) =>{
     value == '1' ? setDate(now) : value == '2' ? setDate(yesterday) : setDate(twoDays)
     setValue(value)
@@ -31,7 +42,7 @@ const Rating = (props) => {
   const ratingList = Kategorie.map((item, id)=>
     <RatingComp title = {item} id = {id} onPress = {setAnswer}/>
   )
-  const getData = async () => {
+  const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('MoodTrackerToken')
       if(value !== null) {
@@ -41,20 +52,24 @@ const Rating = (props) => {
       // error reading value
     }
   }
-  const handlePost = (e)=>{
-    e.preventDefault();
+  const handlePost = ()=>{
+    createData();
     fetch("https://moodtrackerapi.azurewebsites.net/Mood", {
      method: 'POST',    
      headers: {
-      'Content-Type': 'application/json',
-       Accept: 'application/json'
+       Accept: '*/*',
+       AcceptEncoding:'gzip, deflate, br',
+       Authorization: `Bearer ${token}` ,
+       Connection: 'keep-alive'
   },
-     body: JSON.stringify({"dateTime":date, }),
-      })
+     body: JSON.stringify({"dateTime":date,  "values":data}),
+      }).then((response) => console.log(response.status))
+      .catch(error => {console.error(error)})
     };
   const sendAsnwers=()=>{
     setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
-    getData();
+    getToken();
+    handlePost();
   }
   return (
     <ScrollView style = {{flex:1}}>
