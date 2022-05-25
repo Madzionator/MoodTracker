@@ -1,5 +1,5 @@
 import { StyleSheet, Text,View, ScrollView, TextInput} from 'react-native'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Theme from '../Theme'
 import { LinearGradient } from 'expo-linear-gradient'
 import Header from './Header'
@@ -7,25 +7,85 @@ import Btn from './Btn'
 import Checkbox from 'expo-checkbox';
 import { TabRouter } from '@react-navigation/native'
 import Kategorie from '../Kategorie'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Settings = (props) => {
   const [text, onChangeText] = useState()
   const [hidden, setHidden] = useState(false)
-  const [changed, setChanged] = useState(false)
-  const [selected, setSelected] = useState([true,true,true,true,true,true,true]) //index +1
+  const [selected, setSelected] = useState([true,false,false,true,true,true,true]) //index +1
+  const [edit, setEdit] = useState(false)
   const handleChange = (id) =>{
     let tmp = selected
     selected[id] = !selected[id]
     setSelected(tmp)
     console.log(selected)
-    setChanged(!changed)//Żeby wywołać reload komponentu
+    setEdit(!edit);
   }
-  
+
+
+
+  const [token,setToken] = useState();
   const wyborKategori = Kategorie.map((item, index)=>
     <View style={styles.section} key = {index}>
       <Text style = {{color:'white', fontWeight:'600'}}>{item}</Text>
       <Checkbox style={styles.checkbox} value={selected[index]} onValueChange={()=>handleChange(index)} />
     </View>
   )
+
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('MoodTrackerToken')
+      if(value !== null) {
+        setToken(value)
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
+  const handlePull = ()=>{
+    fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
+     method: 'GET',    
+     headers: {
+       Accept: '*/*',
+       AcceptEncoding:'gzip, deflate, br',
+       Authorization: `Bearer ${token}` ,
+       Connection: 'keep-alive'
+  },
+      }).then((response) => response.status != 200 ? null : response.json())
+      .then((result) => {
+        let tmp = selected;
+        result === null ? null : result.map(item=>tmp[item] = true)
+        setSelected(tmp);
+        setEdit(!edit)
+      })
+      .catch(error => {console.error(error)})
+    };
+    const data = [];
+    const createData = () =>{
+      for(let i=1; i<=7; i++){
+        selected[i-1] ===true ?
+        data.push(i) : null
+      }
+      console.log(data)
+    }
+  const handlePush = () =>{
+    fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
+     method: 'POST',    
+     headers: {
+       Accept: '*/*',
+       AcceptEncoding:'gzip, deflate, br',
+       Authorization: `Bearer ${token}` ,
+       Connection: 'keep-alive'
+  },body: JSON.stringify(data),
+      }).then((response) => console.log(response.status))
+      .catch(error => {console.error(error)})
+    };
+  useEffect(()=>getToken(),[])
+  useEffect(() => {
+    handlePull();
+  },[token]);
+  //Wymusza reload
+  useEffect(()=>setEdit(true),[edit])
   return (
     <ScrollView style = {{flex:1,}}>
       <LinearGradient
@@ -50,7 +110,7 @@ const Settings = (props) => {
           multiline
         numberOfLines={8}
         />
-        <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{}/**Dodać pusha do api */}/>
+        <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{createData(), handlePush()}/**Dodać pusha do api */}/>
       </LinearGradient>
     </ScrollView>
   )
