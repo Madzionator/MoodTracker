@@ -31,12 +31,12 @@ export default function Login(props) {
       .then(data => {
         if(data.token != null)
         {
-          props.setScene('Register')
+          props.setScene('Rating')
           save(data.token);
         }
         else{
           setPassword('')
-          alert(data.error)
+          alert(data.title)
         }
       });
   };    
@@ -65,7 +65,7 @@ export default function Login(props) {
           autoComplete = 'password'
           secureTextEntry={true}
         />
-        <Btn title = 'Zaloguj' style={styles.btn} onPress = {/*handleLogin*/ ()=>props.setScene('Rating')}/>
+        <Btn title = 'Zaloguj' style={styles.btn} onPress = {handleLogin/* ()=>props.setScene('Rating')*/}/>
       </View>
     </LinearGradient>
   );

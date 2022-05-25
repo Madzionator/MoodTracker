@@ -1,14 +1,138 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
+import React, { useState } from 'react'
+import Header from './Header';
+import { LinearGradient } from 'expo-linear-gradient'
+import Btn from './Btn';
+import Theme from '../Theme'
 
-const Register = () => {
+
+export default function Register(props) {
+  const [login,setLogin] = useState('')
+  const [email,setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confPassword, setConfPassword] = useState('')
+  const [bio,setBio] = useState('')
+  const data = {
+      userName: login,
+      emailAddress: email,
+      password: password,
+      bio: bio
+  }
+
+  const handleRegister = (e)=>{
+    e.preventDefault();
+    fetch("https://moodtrackerapi.azurewebsites.net/User/register", {
+     method: 'POST',    
+     headers: {
+      'Content-Type': 'application/json',
+       Accept: 'application/json'
+  },
+     body: JSON.stringify(data),
+      }).then((response) => response.status === 204 ? null : response.json())
+        .then((result) => {
+          result ?  
+          alert(result.title) : props.setScene('Login')      
+        }).catch(error => {console.error(error)})
+    };
+
+  const valPass = () => {
+    if (password != confPassword) {
+      alert("Podane hasła nie są identyczne")
+    }
+  };
+
+  const onpress = (e) => {
+    valPass();
+    handleRegister(e);
+  };
+
   return (
-    <View>
-      <Text>Register</Text>
-    </View>
-  )
+    <LinearGradient
+    colors={[Theme.background, Theme.backgroundGradient]}
+    style={styles.container}
+    >
+      <View style={{marginBottom:'40%'}}>
+        <Header style = {{marginBottom:20}}/>
+        <TextInput
+        style={styles.input}
+        title="login"
+        placeholder='Login'
+        onChangeText={(login) => setLogin(login)}
+        />
+        <TextInput
+        style={styles.input}
+        title="email"
+        placeholder="E-mail"
+        onChangeText={(email) => setEmail(email)}
+        />
+        <TextInput
+        style={styles.input}
+        title="password"
+        placeholder='Hasło'
+        type="password"
+        secureTextEntry={true}
+        onChangeText={(password) => setPassword(password)}
+        />
+        <TextInput
+        style={styles.input}
+        title="confPassword"
+        placeholder='Powtórz hasło'
+        type="password"
+        secureTextEntry={true}
+        onChangeText={(confPassword) => setConfPassword(confPassword)}
+        />
+        <TextInput
+        style={styles.input}
+        title="bio"
+        placeholder='Bio'
+        multiline = {true}
+        numberOfLines = {8}/>
+        <Btn title='Zatwierdź' style={styles.btn} onPress={onpress}/>
+      </View>
+    </LinearGradient>
+  );
 }
 
-export default Register
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    alignItems: 'center',
+    paddingTop:30,
+    justifyContent:'space-around'
+  },
+  input: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius:5,
+    padding:5,
+    borderColor:Theme.background,
+    marginBottom: '4%',
+    fontSize: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  titleText:{
+    fontSize:50,
+    fontWeight:"700",
+    marginBottom:50,
+    color:'white',
+    textAlign:'center'
+  },
+  btn:{
+    marginHorizontal:'auto',
+    //alignItems: 'center',
+    marginVertical:'auto',
+    marginLeft:'15%',
+    textAlign: 'center',
+    fontSize: 20,
+    backgroundColor:Theme.background,
+  }
+})
