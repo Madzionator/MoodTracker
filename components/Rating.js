@@ -6,11 +6,13 @@ import RNPickerSelect from 'react-native-picker-select'
 import Btn from './Btn'
 import Theme from '../Theme'
 import Kategorie from '../Kategorie'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Rating = (props) => {
   const now = new Date();
   const yesterday = new Date(now-86400000);
   const twoDays = new Date(now - 172800000);
+  const [token,setToken] = useState();
   const [value,setValue] = useState('1')
   const [date,setDate] = useState(now)
   const [answer, setAnswer] = useState({
@@ -20,8 +22,7 @@ const Rating = (props) => {
     4:null,
     5:null,
     6: null,
-    7:null,
-    date:date
+    7:null
 })
   const chandleChange = (value) =>{
     value == '1' ? setDate(now) : value == '2' ? setDate(yesterday) : setDate(twoDays)
@@ -30,7 +31,31 @@ const Rating = (props) => {
   const ratingList = Kategorie.map((item, id)=>
     <RatingComp title = {item} id = {id} onPress = {setAnswer}/>
   )
-
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('MoodTrackerToken')
+      if(value !== null) {
+        setToken(value)
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
+  const handlePost = (e)=>{
+    e.preventDefault();
+    fetch("https://moodtrackerapi.azurewebsites.net/Mood", {
+     method: 'POST',    
+     headers: {
+      'Content-Type': 'application/json',
+       Accept: 'application/json'
+  },
+     body: JSON.stringify({"dateTime":date, }),
+      })
+    };
+  const sendAsnwers=()=>{
+    setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
+    getData();
+  }
   return (
     <ScrollView style = {{flex:1}}>
       <LinearGradient
@@ -49,7 +74,7 @@ const Rating = (props) => {
                   { label: 'Dwa dni temu', value: '3' },
               ]}
           />
-        <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
+        <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={sendAsnwers}/>
       </LinearGradient>
     </ScrollView>
 

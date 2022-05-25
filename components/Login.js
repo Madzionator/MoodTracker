@@ -15,7 +15,7 @@ export default function Login(props) {
     try {
       await AsyncStorage.setItem('MoodTrackerToken', token)
     } catch (e) {
-      // saving error
+      alert(e);
     }
   }
   const handleLogin =()=>{
