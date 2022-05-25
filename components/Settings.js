@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
   bio:{
     backgroundColor:'white',
     width:'70%',
-    padding:10,
-    textAlign:'top'
+    padding:10
   },
   btn:{
     backgroundColor:Theme.background,
@@ -87,5 +86,4 @@ const styles = StyleSheet.create({
     marginLeft:10,
     marginTop:3
   },
-
 })

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useState } from 'react'
 import RatingComp from './RatingComp'
@@ -32,7 +32,7 @@ const Rating = (props) => {
   )
 
   return (
-    <View style = {{flex:1}}>
+    <ScrollView style = {{flex:1}}>
       <LinearGradient
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
@@ -51,7 +51,7 @@ const Rating = (props) => {
           />
         <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={()=>{setAnswer((prevState)=>{setAnswer({...prevState, date:date})}); console.log(answer)}}/>
       </LinearGradient>
-    </View>
+    </ScrollView>
 
   )
 }
@@ -69,7 +69,8 @@ const pickerStyles = StyleSheet.create({
     borderRadius: 10,
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
-    marginHorizontal:'15%'
+    marginHorizontal:'15%',
+    marginTop:10
   },
 });
 const styles = StyleSheet.create({
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
   btn:{
    // marginBottom:20,
     backgroundColor:Theme.background,
-    marginVertical:10
+    marginVertical:10,
+    marginBottom:20
   },
   select:{
     width:'90%'
