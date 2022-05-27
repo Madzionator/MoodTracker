@@ -4,7 +4,6 @@ import Header from './Header';
 import { useState } from 'react';
 import Btn from './Btn';
 import Theme from '../Theme'
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
