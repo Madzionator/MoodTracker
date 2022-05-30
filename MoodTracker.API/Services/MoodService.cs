@@ -91,7 +91,7 @@ internal class MoodService : IMoodService
         }).ToList();
     }
 
-    public IList<MoodWeekDto> GetFollowMoods(int followUserId)
+    public IList<MoodFollowersDto> GetFollowMoods()
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
@@ -99,27 +99,34 @@ internal class MoodService : IMoodService
             throw new UserIdNotFoundException();
         }
 
-        var followList = _context.Follows
-            .Where(x => x.FollowerId == userId)
-            .Select(f => f.FollowedUserId);
+        
+        var followersdto = new List<MoodFollowersDto>();
 
-        if (followList.Contains(followUserId))
+        var followerList = _context.Follows
+            .Where(x => x.FollowerId == userId && x.IsAccepted == true)
+            .Select(f => f.FollowedUserId)
+            .ToList();
+
+        foreach (var fol in followerList)
         {
+            var mWeek = new List<MoodWeekDto>();
             var categories = _context.UserCategories
-           .Where(x => x.UserId == followUserId)
+           .Where(x => x.UserId == fol)
            .Select(c => c.CategoryId)
            .ToList();
-
-            return categories.Select(cat => new MoodWeekDto
+            foreach (var cat in categories)
             {
-                CategoryId = cat,
-                Values = Enumerable.Range(-6, 7)
-                .Select(i => _context.Moods.FirstOrDefault(x =>
-                    x.UserId == followUserId && x.CategoryId == cat && x.DateTime == DateTime.Today.AddDays(i)))
+                var values = Enumerable.Range(-6, 7)
+                .Select(i => _context.Moods
+                .FirstOrDefault(x => x.UserId == fol
+                                 && x.CategoryId == cat
+                                 && x.DateTime == DateTime.Today.AddDays(i)))
                 .Select(abc => abc?.Value)
-                .ToList()
-            }).ToList();
+                .ToList();
+                mWeek.Add(new MoodWeekDto { CategoryId = cat, Values = values });
+            }
+            followersdto.Add(new MoodFollowersDto { FollowedId = fol, FollowerValues =  mWeek});
         }
-        return null;
+        return followersdto;
     }
 }

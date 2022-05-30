@@ -42,10 +42,10 @@ namespace MoodTracker.API.Controllers
 
         [Authorize]
         [HttpGet("followmoods")]
-        public IActionResult GetFollowMoods(int followUserId)
+        public IActionResult GetFollowMoods()
         {
-            var monthmoods = _moodService.GetFollowMoods(followUserId);
-            return Ok(monthmoods);
+            var followmoods = _moodService.GetFollowMoods();
+            return Ok(followmoods);
         }
     }
 }
