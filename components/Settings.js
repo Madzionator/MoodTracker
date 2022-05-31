@@ -60,8 +60,9 @@ const Settings = (props) => {
       })
       .catch(error => {console.error(error)})
     };
-    const data = [];
+    let data = [];
     const createData = () =>{
+      data = [];
       for(let i=1; i<=7; i++){
         selected[i-1] ===true ?
         data.push(i) : null
@@ -69,6 +70,7 @@ const Settings = (props) => {
       console.log(data)
     }
   const handlePush = () =>{
+    createData();
     fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
      method: 'POST',    
      headers: {

@@ -2,3 +2,16 @@ https://www.npmjs.com/package/react-native-picker-select
 https://react-native-async-storage.github.io/async-storage/docs/install/
 
 
+
+fetch("https://moodtrackerapi.azurewebsites.net/Mood", {
+     method: 'POST',    
+     headers: {
+      Accept: '*/*',
+      AcceptEncoding:'gzip, deflate, br', 
+      AcceptLanguage:'pl-PL;q=0.9, en-US;q=0.8,en;q=0.7',
+       Authorization: `Bearer ${token}`,
+      Connection: 'keep-alive'
+  },
+     body: JSON.stringify({"dateTime":date,  "values":data}),
+      }).then((response) => console.log(response.status))
+      .catch(error => {console.error(error)})

@@ -52,24 +52,28 @@ const Rating = (props) => {
       // error reading value
     }
   }
-  const handlePost = ()=>{
+  const handlePost = (e)=>{
+    e.preventDefault();
     createData();
     fetch("https://moodtrackerapi.azurewebsites.net/Mood", {
-     method: 'POST',    
-     headers: {
-       Accept: '*/*',
-       AcceptEncoding:'gzip, deflate, br',
-       Authorization: `Bearer ${token}` ,
-       Connection: 'keep-alive'
-  },
+      method: 'POST',    
+      headers: {
+        Accept: '*/*',
+        AcceptEncoding:'gzip, deflate, br',
+        Authorization: `Bearer ${token}` ,
+        Connection: 'keep-alive'
+   },
      body: JSON.stringify({"dateTime":date,  "values":data}),
-      }).then((response) => console.log(response.status))
-      .catch(error => {console.error(error)})
+      }).then((response) => alert(response.status ))
+      .then((result) => {
+        alert(result.title)   
+      })
+        .catch(error => {alert(error)})
     };
-  const sendAsnwers=()=>{
+  const sendAsnwers=(e)=>{
     setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
     getToken();
-    handlePost();
+    handlePost(e);
   }
   return (
     <ScrollView style = {{flex:1}}>

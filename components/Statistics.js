@@ -80,7 +80,7 @@ const Statistics = (props) => {
        Authorization: `Bearer ${token}` ,
        Connection: 'keep-alive'
   },
-      }).then((response) => response.status != 200 ? null : response.json())
+      }).then((response) => response.status != 200 ? null : response.json())    //(response) => response.status != 200 ? null : response.json()
       .then((result) => {
         setData(result)
         console.log(result)
@@ -89,11 +89,10 @@ const Statistics = (props) => {
     };
   useEffect(()=>{
     getToken();
-    console.log(range)
     range === 'Weekly' ?  handlePull('week') :  handlePull('month')
     //tutaj pobieranie danych z api w zalezności od opcji miesięcznych albo tygodniowych
   },[range,token])
-  const charts = data?.map((item) => <Chart data = {item.values} title = {item.categoryId} key = {item.categoryId}/>)
+  const charts = data?.map((item) => <Chart data = {item.values.map(item => item === null ? item = -1:null)} title = {item.categoryId} key = {item.categoryId}/>)
   return (
     <View style = {styles.container}>
       <View style= {styles.btnContainer}>
