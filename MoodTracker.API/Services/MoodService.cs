@@ -67,12 +67,15 @@ internal class MoodService : IMoodService
         return GetMoods(30);
     }
 
-    private IList<MoodListDto> GetMoods(int days)
+    private IList<MoodListDto> GetMoods(int days, int? userId = 0)
     {
-        var userId = _userInfoProvider.Id;
-        if (userId == null)
+        if(userId == 0)
         {
-            throw new UserIdNotFoundException();
+            userId = _userInfoProvider.Id;
+            if (userId == null)
+            {
+                throw new UserIdNotFoundException();
+            }
         }
 
         var categories = _context.UserCategories
@@ -107,22 +110,7 @@ internal class MoodService : IMoodService
 
         foreach (var fol in followerList)
         {
-            var mWeek = new List<MoodListDto>();
-            var categories = _context.UserCategories
-           .Where(x => x.UserId == fol)
-           .Select(c => c.CategoryId)
-           .ToList();
-            foreach (var cat in categories)
-            {
-                var values = Enumerable.Range(-6, 7)
-                .Select(i => _context.Moods
-                .FirstOrDefault(x => x.UserId == fol
-                                 && x.CategoryId == cat
-                                 && x.DateTime == DateTime.Today.AddDays(i)))
-                .Select(abc => abc?.Value)
-                .ToList();
-                mWeek.Add(new MoodListDto { CategoryId = cat, Values = values });
-            }
+            var mWeek = GetMoods(7, fol);
             followersdto.Add(new MoodFollowersDto { FollowedId = fol, FollowerValues =  mWeek});
         }
         return followersdto;

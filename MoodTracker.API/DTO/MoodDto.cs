@@ -28,5 +28,5 @@ public class MoodListDto
 public class MoodFollowersDto
 {
     public int FollowedId { get; set; }
-    public List<MoodListDto> FollowerValues { get; set; }
+    public IList<MoodListDto> FollowerValues { get; set; }
 }
