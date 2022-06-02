@@ -19,7 +19,7 @@ public class MoodValueDto
     public int Value { get; set; }
 }
 
-public class MoodWeekDto
+public class MoodListDto
 {
     public int CategoryId { get; set; }
     public List<int?> Values { get; set; }
@@ -28,5 +28,5 @@ public class MoodWeekDto
 public class MoodFollowersDto
 {
     public int FollowedId { get; set; }
-    public List<MoodWeekDto> FollowerValues { get; set; }
+    public List<MoodListDto> FollowerValues { get; set; }
 }

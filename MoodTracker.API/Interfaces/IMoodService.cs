@@ -5,7 +5,7 @@ namespace MoodTracker.API.Interfaces;
 public interface IMoodService
 {
     void AddMood(MoodAddDto dto);
-    IList<MoodWeekDto> GetWeek();
-    IList<MoodWeekDto> GetMonth();
+    IList<MoodListDto> GetWeek();
+    IList<MoodListDto> GetMonth();
     IList<MoodFollowersDto> GetFollowMoods();
 }
