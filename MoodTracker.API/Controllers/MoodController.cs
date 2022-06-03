@@ -39,5 +39,13 @@ namespace MoodTracker.API.Controllers
             var monthmoods = _moodService.GetMonth();
             return Ok(monthmoods);
         }
+
+        [Authorize]
+        [HttpGet("followmoods")]
+        public IActionResult GetFollowMoods()
+        {
+            var followmoods = _moodService.GetFollowMoods();
+            return Ok(followmoods);
+        }
     }
 }

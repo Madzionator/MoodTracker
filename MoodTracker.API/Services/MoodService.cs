@@ -57,22 +57,25 @@ internal class MoodService : IMoodService
         _context.SaveChanges();
     }
 
-    public IList<MoodWeekDto> GetWeek()
+    public IList<MoodListDto> GetWeek()
     {
         return GetMoods(7);
     }
 
-    public IList<MoodWeekDto> GetMonth()
+    public IList<MoodListDto> GetMonth()
     {
         return GetMoods(30);
     }
 
-    private IList<MoodWeekDto> GetMoods(int days)
+    private IList<MoodListDto> GetMoods(int days, int? userId = 0)
     {
-        var userId = _userInfoProvider.Id;
-        if (userId == null)
+        if(userId == 0)
         {
-            throw new UserIdNotFoundException();
+            userId = _userInfoProvider.Id;
+            if (userId == null)
+            {
+                throw new UserIdNotFoundException();
+            }
         }
 
         var categories = _context.UserCategories
@@ -80,7 +83,7 @@ internal class MoodService : IMoodService
            .Select(c => c.CategoryId)
            .ToList();
 
-        return categories.Select(cat => new MoodWeekDto
+        return categories.Select(cat => new MoodListDto
         {
             CategoryId = cat,
             Values = Enumerable.Range(-days +1, days)
@@ -89,5 +92,27 @@ internal class MoodService : IMoodService
             .Select(abc => abc?.Value)
             .ToList()
         }).ToList();
+    }
+
+    public IList<MoodFollowersDto> GetFollowMoods()
+    {
+        var userId = _userInfoProvider.Id;
+        if (userId == null)
+        {
+            throw new UserIdNotFoundException();
+        }
+        var followersdto = new List<MoodFollowersDto>();
+
+        var followerList = _context.Follows
+            .Where(x => x.FollowerId == userId && x.IsAccepted == true)
+            .Select(f => f.FollowedUserId)
+            .ToList();
+
+        foreach (var fol in followerList)
+        {
+            var mWeek = GetMoods(7, fol);
+            followersdto.Add(new MoodFollowersDto { FollowedId = fol, FollowerValues =  mWeek});
+        }
+        return followersdto;
     }
 }
