@@ -6,6 +6,7 @@ import Chart from './Chart';
 import Btn from './Btn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
+import Kategorie from '../Kategorie'
 const mockData = [
   {
     title:'Praca',
@@ -92,7 +93,7 @@ const Statistics = (props) => {
     range === 'Weekly' ?  handlePull('week') :  handlePull('month')
     //tutaj pobieranie danych z api w zalezności od opcji miesięcznych albo tygodniowych
   },[range,token])
-  const charts = data?.map((item) => <Chart data = {item.values.map(item => item === null ? item = -1:null)} title = {item.categoryId} key = {item.categoryId}/>)
+  const charts = data?.map((item) => <Chart data = {item.values.map(item => item === null ? item = -1: item=item)} title = {Kategorie[item.categoryId-1]} key = {item.categoryId}/>)
   return (
     <View style = {styles.container}>
       <View style= {styles.btnContainer}>

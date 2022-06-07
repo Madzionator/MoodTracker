@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RatingComp from './RatingComp'
 import RNPickerSelect from 'react-native-picker-select'
 import Btn from './Btn'
@@ -15,6 +15,10 @@ const Rating = (props) => {
   const [token,setToken] = useState();
   const [value,setValue] = useState('1')
   const [date,setDate] = useState(now)
+  const [selected, setSelected] = useState(null)
+
+
+  
   const [answer, setAnswer] = useState({
     1:null,
     2:null,
@@ -24,9 +28,10 @@ const Rating = (props) => {
     6: null,
     7:null
 })
-  const data = [];
+  let data = [];
   const createData = () =>
   {
+    data = [];
     for(let i=1; i<=7; i++){
       answer[i] != null ?
       data.push(
@@ -34,13 +39,14 @@ const Rating = (props) => {
         "value":answer[i]
       }) : null
     }
+    console.log(data);
   }
   const chandleChange = (value) =>{
     value == '1' ? setDate(now) : value == '2' ? setDate(yesterday) : setDate(twoDays)
     setValue(value)
   }
-  const ratingList = Kategorie.map((item, id)=>
-    <RatingComp title = {item} id = {id} onPress = {setAnswer}/>
+  const ratingList =selected?.map((item)=>
+    <RatingComp title = {Kategorie[item-1]} id = {item} onPress = {setAnswer}/>
   )
   const getToken = async () => {
     try {
@@ -58,23 +64,48 @@ const Rating = (props) => {
     fetch("https://moodtrackerapi.azurewebsites.net/Mood", {
       method: 'POST',    
       headers: {
-        Accept: '*/*',
-        AcceptEncoding:'gzip, deflate, br',
         Authorization: `Bearer ${token}` ,
-        Connection: 'keep-alive'
+        Accept: '*/*',
+        AcceptEncoding: 'gzip, deflate, br',
+        Connection: 'keep-alive',
+        'Content-Type': 'application/json'
    },
      body: JSON.stringify({"dateTime":date,  "values":data}),
-      }).then((response) => alert(response.status ))
-      .then((result) => {
-        alert(result.title)   
-      })
-        .catch(error => {alert(error)})
+      }).then((response) => console.log(response.status))
+      .catch(error => {console.error(error)})
     };
+
+
+    const handlePull = ()=>{
+      getToken()
+      fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
+       method: 'GET',    
+       headers: {
+         Accept: '*/*',
+         AcceptEncoding:'gzip, deflate, br',
+         Authorization: `Bearer ${token}` ,
+         Connection: 'keep-alive'
+    },
+        }).then((response) => response.status != 200 ? null : response.json())
+        .then((result) => {
+          console.log(result)
+          setSelected(result);
+          //setEdit(!edit)
+        })
+        .catch(error => {console.error(error)})
+      };
+
+
+
+
   const sendAsnwers=(e)=>{
     setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
     getToken();
     handlePost(e);
   }
+  //
+  //useEffect(()=>{handlePull()},[selected])
+  useEffect(()=>{if(selected===null){handlePull()}})
   return (
     <ScrollView style = {{flex:1}}>
       <LinearGradient
@@ -124,7 +155,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingTop:40,
     marginBottom:0,
-    paddingBottom:0
+    paddingBottom:0,
+    width:'100%',
+    height:'100%'
   },
   btn:{
    // marginBottom:20,

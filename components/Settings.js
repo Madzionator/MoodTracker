@@ -77,14 +77,47 @@ const Settings = (props) => {
        Accept: '*/*',
        AcceptEncoding:'gzip, deflate, br',
        Authorization: `Bearer ${token}` ,
-       Connection: 'keep-alive'
+       Connection: 'keep-alive',
+       'Content-Type': 'application/json',
   },body: JSON.stringify(data),
       }).then((response) => console.log(response.status))
+      .catch(error => {console.error(error)})
+    };
+  const handlePrivatePush=()=>{
+    fetch("https://moodtrackerapi.azurewebsites.net/User", {
+      method: 'PATCH',    
+      headers: {
+        Accept: '*/*',
+        AcceptEncoding:'gzip, deflate, br',
+        Authorization: `Bearer ${token}` ,
+        Connection: 'keep-alive',
+        'Content-Type': 'application/json',
+   },body: JSON.stringify({bio:text,
+                          isPrivate:hidden}),
+       }).then((response) => console.log(response.status))
+       .catch(error => {console.error(error)})
+  }
+  const handlePrivatePull = ()=>{
+    fetch("https://moodtrackerapi.azurewebsites.net/User", {
+     method: 'GET',    
+     headers: {
+       Accept: '*/*',
+       AcceptEncoding:'gzip, deflate, br',
+       Authorization: `Bearer ${token}` ,
+       Connection: 'keep-alive'
+  },
+      }).then((response) => response.status != 200 ? null : response.json())
+      .then((result) => {
+        console.log(result);
+        result!=null? (setHidden(result.isPrivate),
+        onChangeText(result.bio)):null
+      })
       .catch(error => {console.error(error)})
     };
   useEffect(()=>getToken(),[])
   useEffect(() => {
     handlePull();
+    handlePrivatePull();
   },[token]);
   //Wymusza reload
   useEffect(()=>setEdit(true),[edit])
@@ -112,7 +145,7 @@ const Settings = (props) => {
           multiline
         numberOfLines={8}
         />
-        <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{createData(), handlePush()}/**Dodać pusha do api */}/>
+        <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{createData(), handlePush(), handlePrivatePush()}/**Dodać pusha do api */}/>
       </LinearGradient>
     </ScrollView>
   )
