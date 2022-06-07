@@ -53,10 +53,11 @@ const Settings = (props) => {
   },
       }).then((response) => response.status != 200 ? null : response.json())
       .then((result) => {
-        let tmp = selected;
-        result === null ? null : result.map(item=>tmp[item] = true)
+        let tmp = [false,false,false,false,false,false,false];
+        result === null ? null : result.map(item=>tmp[item-1] = true)
         setSelected(tmp);
         setEdit(!edit)
+        console.log(selected)
       })
       .catch(error => {console.error(error)})
     };
@@ -67,7 +68,6 @@ const Settings = (props) => {
         selected[i-1] ===true ?
         data.push(i) : null
       }
-      console.log(data)
     }
   const handlePush = () =>{
     createData();
