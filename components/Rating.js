@@ -107,11 +107,13 @@ const Rating = (props) => {
   //useEffect(()=>{handlePull()},[selected])
   useEffect(()=>{if(selected===null){handlePull()}})
   return (
-    <ScrollView style = {{flex:1}}>
+    
       <LinearGradient
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
       >
+        <ScrollView style = {{flex:1, width:'100%', height:'100%'}}>
+        <View style = {{width:'80%', marginHorizontal:'10%'}}>
         {ratingList}
         <RNPickerSelect
               value={value}
@@ -125,8 +127,10 @@ const Rating = (props) => {
               ]}
           />
         <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={sendAsnwers}/>
+        </View>
+        </ScrollView>
       </LinearGradient>
-    </ScrollView>
+    
 
   )
 }
@@ -163,7 +167,8 @@ const styles = StyleSheet.create({
    // marginBottom:20,
     backgroundColor:Theme.background,
     marginVertical:10,
-    marginBottom:20
+    marginBottom:20,
+    alignSelf:'center'
   },
   select:{
     width:'90%'
