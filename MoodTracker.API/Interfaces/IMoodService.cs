@@ -7,5 +7,5 @@ public interface IMoodService
     void AddMood(MoodAddDto dto);
     IList<MoodListDto> GetWeek();
     IList<MoodListDto> GetMonth();
-    IList<MoodFollowersDto> GetFollowMoods();
+    IList<MoodFollowedDto> GetFollowMoods();
 }

@@ -94,14 +94,14 @@ internal class MoodService : IMoodService
         }).ToList();
     }
 
-    public IList<MoodFollowersDto> GetFollowMoods()
+    public IList<MoodFollowedDto> GetFollowMoods()
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
         {
             throw new UserIdNotFoundException();
         }
-        var followersdto = new List<MoodFollowersDto>();
+        var followersdto = new List<MoodFollowedDto>();
 
         var followerList = _context.Follows
             .Where(x => x.FollowerId == userId && x.IsAccepted == true)
@@ -112,8 +112,7 @@ internal class MoodService : IMoodService
         {
             var mWeek = GetMoods(7, fol);
             var name = _context.Users.Where(x => x.Id == fol).Select(i => i.UserName).ToList();
-
-            followersdto.Add(new MoodFollowersDto { FollowedId = fol,FollowedName = name[0] ,FollowerValues =  mWeek});
+            followersdto.Add(new MoodFollowedDto { FollowedId = fol,FollowedName = name[0] ,FollowedValues =  mWeek});
         }
         return followersdto;
     }
