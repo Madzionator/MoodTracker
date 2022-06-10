@@ -111,7 +111,9 @@ internal class MoodService : IMoodService
         foreach (var fol in followerList)
         {
             var mWeek = GetMoods(7, fol);
-            followersdto.Add(new MoodFollowersDto { FollowedId = fol, FollowerValues =  mWeek});
+            var name = _context.Users.Where(x => x.Id == fol).Select(i => i.UserName).ToList();
+
+            followersdto.Add(new MoodFollowersDto { FollowedId = fol,FollowedName = name[0] ,FollowerValues =  mWeek});
         }
         return followersdto;
     }
