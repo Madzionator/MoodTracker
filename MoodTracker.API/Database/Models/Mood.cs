@@ -14,16 +14,6 @@ public class Mood
     public User User { get; set; }
 }
 
-//category: 1-7
-// 1 praca / studia,
-// 2 hobby,
-// 3 rodzina,
-// 4 przyjaciele,
-// 5 lifestyle,
-// 6 samorealizacja
-// 7 zdrowie
-// 
-
 public class MoodConfiguration : IEntityTypeConfiguration<Mood>
 {
     public void Configure(EntityTypeBuilder<Mood> mood)
