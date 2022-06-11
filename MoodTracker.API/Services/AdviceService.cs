@@ -18,7 +18,9 @@ internal class AdviceService : IAdviceService
 
     public string GetAdvice(int CategoryId)
     {
-        
-        return "dds";
+        var advice = _context.Advices
+            .Where(a => a.CategoryId == CategoryId)
+            .Select(ad => ad.Description).Single();
+        return advice;
     }
 }

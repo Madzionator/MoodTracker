@@ -12,7 +12,7 @@ using MoodTracker.API.Database;
 namespace MoodTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220611111942_advice")]
+    [Migration("20220611115324_advice")]
     partial class advice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace MoodTracker.API.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
-                    b.ToTable("Advice");
+                    b.ToTable("Advices");
                 });
 
             modelBuilder.Entity("MoodTracker.API.Database.Models.Follow", b =>

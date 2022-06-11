@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -9,7 +10,7 @@ namespace MoodTracker.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Advice",
+                name: "Advices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +20,7 @@ namespace MoodTracker.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Advice", x => x.Id)
+                    table.PrimaryKey("PK_Advices", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
         }
@@ -27,7 +28,7 @@ namespace MoodTracker.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Advice");
+                name: "Advices");
         }
     }
 }
