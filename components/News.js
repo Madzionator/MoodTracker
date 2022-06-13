@@ -61,13 +61,13 @@ const handlePull = ()=>{
   useEffect(()=>{handlePull(), handlePullRequests()},[token])
   const FollowersList =()=>
     <ScrollView>
-      {data.map(item =>
+      {data?.map(item =>
         <View style={styles.listItem}>
           <Text style={{ textAlign: 'center', color: 'white', fontSize: 20 }}>{item.followedId}</Text>
           <FlatList
-            data={item.followerValues}
+            data={item.followedValues}
             renderItem={
-              ({ item }) => <Chart title={Kategorie[item.categoryId - 1]} width={300} data={item.values.map(item => item === null ? item = -1 : item = item)} />
+              ({ item }) => <View style={{width:300, justifyContent:'center', marginRight:10}}><Chart title={Kategorie[item.categoryId - 1]} width={280} data={item.values.map(item => item === null ? item = -1 : item = item)} /></View>
             }
             keyExtractor={(item, index) => index.toString()}
             horizontal
