@@ -19,6 +19,7 @@ const Chart = (props) => {
         height={220} // from react-native
         width={props.width==null?0.9*Dimensions.get("window").width:props.width}
         yAxisInterval={1} // optional, defaults to 1
+        
         chartConfig={{
           backgroundColor: Theme.background,
           backgroundGradientFrom: Theme.background,

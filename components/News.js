@@ -63,7 +63,7 @@ const handlePull = ()=>{
     <ScrollView>
       {data?.map(item =>
         <View style={styles.listItem}>
-          <Text style={{ textAlign: 'center', color: 'white', fontSize: 20 }}>{item.followedId}</Text>
+          <Text style={{ textAlign: 'center', color: 'white', fontSize: 20 }}>{item.followedName}</Text>
           <FlatList
             data={item.followedValues}
             renderItem={
