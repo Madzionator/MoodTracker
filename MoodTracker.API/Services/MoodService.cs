@@ -4,6 +4,7 @@ using MoodTracker.API.Database.Models;
 using MoodTracker.API.DTO;
 using MoodTracker.API.Exceptions;
 using MoodTracker.API.Interfaces;
+
 namespace MoodTracker.API.Services;
 
 internal class MoodService : IMoodService
@@ -11,15 +12,17 @@ internal class MoodService : IMoodService
     private readonly DataContext _context;
     private readonly IMapper _mapper;
     private readonly IUserInfoProvider _userInfoProvider;
+    private readonly IAdviceService _adviceService;
 
-    public MoodService(DataContext context, IMapper mapper, IUserInfoProvider userInfoProvider)
+    public MoodService(DataContext context, IMapper mapper, IUserInfoProvider userInfoProvider, IAdviceService adviceService)
     {
         _context = context;
         _mapper = mapper;
         _userInfoProvider = userInfoProvider;
+        _adviceService = adviceService;
     }
 
-    public void AddMood(MoodAddDto dto)
+    public AdviceDto AddMood(MoodAddDto dto)
     {
         var userId = _userInfoProvider.Id;
         if (userId == null)
@@ -55,6 +58,8 @@ internal class MoodService : IMoodService
         }
 
         _context.SaveChanges();
+
+        return CheckAverage(dto.Values, userId);
     }
 
     public IList<MoodListDto> GetWeek()
@@ -115,5 +120,29 @@ internal class MoodService : IMoodService
             followersdto.Add(new MoodFollowedDto { FollowedId = fol,FollowedName = name[0] ,FollowedValues =  mWeek});
         }
         return followersdto;
+    }
+
+    private AdviceDto CheckAverage(IList<MoodValueDto> dto, int? userId)
+    {
+        Random rng = new Random();
+        var adviceList = new List<AdviceDto>();
+        foreach (var val in dto)
+        {
+            var cmoods = _context.Moods
+                .Where(x => x.UserId == userId && x.CategoryId == val.CategoryId)
+                .Take(7)
+                .Select(v => v.Value)
+                .ToList();
+            if (cmoods.Count() >= 7 && cmoods.Average() <= 2)
+            {
+                adviceList.Add(_adviceService.GetAdvice(val.CategoryId));
+            }
+        }
+        if(adviceList.Count() > 0)
+        {
+            return adviceList[rng.Next(adviceList.Count())];
+        }
+
+        return null;
     }
 }

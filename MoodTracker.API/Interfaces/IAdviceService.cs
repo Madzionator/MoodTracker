@@ -1,5 +1,7 @@
-﻿namespace MoodTracker.API.Interfaces;
+﻿using MoodTracker.API.DTO;
+
+namespace MoodTracker.API.Interfaces;
 public interface IAdviceService
 {
-    string GetAdvice(int CategoryId);
+    AdviceDto GetAdvice(int CategoryId);
 }
