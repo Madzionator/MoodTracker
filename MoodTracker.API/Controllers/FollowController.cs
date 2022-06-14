@@ -36,7 +36,7 @@ namespace MoodTracker.API.Controllers
         {
             var users = list switch
                 {
-                    GetFollowList.Waiting => _followService.WaitingFollows(),
+                    GetFollowList.Waiting => _followService.WaitingFollowers(),
                     GetFollowList.Following => _followService.Following(),
                     GetFollowList.Followers => _followService.Followers(),
                         _ => throw new ArgumentOutOfRangeException(nameof(list), list, null)

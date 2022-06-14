@@ -30,8 +30,18 @@ internal class FollowService : IFollowService
             .Select(f => _mapper.Map<UserBaseDto>(f.Follower))
             .ToList();
     }
+    private List<UserBaseDto> GetFollowing(bool isAccepted)
+    {
+        var myId = _userInfoProvider.Id;
 
-    public List<UserBaseDto> WaitingFollows()
+        return _context.Follows
+            .Where(x => x.FollowerId == (int)myId && x.IsAccepted == isAccepted)
+            .Include(x => x.FollowedUser)
+            .Select(f => _mapper.Map<UserBaseDto>(f.FollowedUser))
+            .ToList();
+    }
+
+    public List<UserBaseDto> WaitingFollowers()
     {
         return GetFollowers(false);
     }
@@ -43,13 +53,7 @@ internal class FollowService : IFollowService
 
     public List<UserBaseDto> Following()
     {
-        var myId = _userInfoProvider.Id;
-
-        return _context.Follows
-            .Where(x => x.FollowerId == (int)myId && x.IsAccepted == true)
-            .Include(x => x.FollowedUser)
-            .Select(f => _mapper.Map<UserBaseDto>(f.FollowedUser))
-            .ToList();
+        return GetFollowing(true);
     }
 
     public void AddFollow(int userId)

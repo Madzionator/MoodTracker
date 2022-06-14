@@ -2,7 +2,7 @@
 
 public interface IFollowService
 {
-    List<UserBaseDto> WaitingFollows();
+    List<UserBaseDto> WaitingFollowers();
     List<UserBaseDto> Following();
     List<UserBaseDto> Followers();
     void AddFollow(int userId);
