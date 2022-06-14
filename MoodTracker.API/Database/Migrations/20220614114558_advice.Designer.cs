@@ -12,7 +12,7 @@ using MoodTracker.API.Database;
 namespace MoodTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220611115324_advice")]
+    [Migration("20220614114558_advice")]
     partial class advice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,50 @@ namespace MoodTracker.API.Migrations
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.ToTable("Advices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Description = "Porada do pracy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            Description = "Porada do hobby"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Description = "Porada do rodziny"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 4,
+                            Description = "Porada do przyjaciół"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            Description = "Porada do lifestyle"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 6,
+                            Description = "Porada do samorealizacji"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 7,
+                            Description = "Porada do zdrowia"
+                        });
                 });
 
             modelBuilder.Entity("MoodTracker.API.Database.Models.Follow", b =>

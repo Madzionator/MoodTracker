@@ -124,7 +124,6 @@ internal class MoodService : IMoodService
 
     private AdviceDto CheckAverage(IList<MoodValueDto> dto, int? userId)
     {
-        Random rng = new Random();
         var adviceList = new List<AdviceDto>();
         foreach (var val in dto)
         {
@@ -140,9 +139,9 @@ internal class MoodService : IMoodService
         }
         if(adviceList.Count() > 0)
         {
+            Random rng = new Random();
             return adviceList[rng.Next(adviceList.Count())];
         }
-
         return null;
     }
 }
