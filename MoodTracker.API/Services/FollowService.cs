@@ -106,4 +106,25 @@ internal class FollowService : IFollowService
         _context.Follows.Update(follow);
         _context.SaveChanges();
     }
+
+    public FollowStatusDto GetStatus(int userId)
+    {
+        var myId = _userInfoProvider.Id;
+        var status = new FollowStatusDto();
+
+        status.IsFollower = _context.Follows
+            .Count(x => x.FollowerId == userId &&
+                        x.FollowedUserId == myId) == 1;
+
+        var f = _context.Follows
+            .FirstOrDefault(x => x.FollowerId == myId && x.FollowedUserId == userId);
+
+        if (f is null) 
+            return status;
+
+        status.IsFollowing = f.IsAccepted;
+        status.IsAsked = !f.IsAccepted;
+
+        return status;
+    }
 }

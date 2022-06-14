@@ -31,7 +31,6 @@ namespace MoodTracker.API.Controllers
         }
 
         [HttpGet]
-
         public IActionResult GetFollows([FromQuery] GetFollowList list)
         {
             var users = list switch
@@ -61,6 +60,13 @@ namespace MoodTracker.API.Controllers
             doAction(userId);
 
             return NoContent();
+        }
+
+        [HttpGet("status/{userId}")] 
+        public IActionResult GetStates([FromRoute] int userId)
+        {
+            var states = _followService.GetStatus(userId);
+            return Ok(states);
         }
     }
 }
