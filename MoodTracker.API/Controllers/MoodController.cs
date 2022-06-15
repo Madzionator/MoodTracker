@@ -20,8 +20,8 @@ namespace MoodTracker.API.Controllers
         [HttpPost]
         public IActionResult AddMood([FromBody] MoodAddDto moodAddDto)
         {
-            _moodService.AddMood(moodAddDto);
-            return NoContent();
+            var advice = _moodService.AddMood(moodAddDto);
+            return Ok(advice);
         }
 
         [Authorize]

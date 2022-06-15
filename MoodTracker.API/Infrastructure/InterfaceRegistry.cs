@@ -12,6 +12,7 @@ public static class InterfaceRegistry
             .AddScoped<IMoodService, MoodService>()
             .AddScoped<IHashService, HashService>()
             .AddScoped<IFollowService, FollowService>()
+            .AddScoped<IAdviceService, AdviceService>()
             .AddScoped<IUserCategoryService, UserCategoryService>()
             .AddScoped<IUserInfoProvider, UserInfoProvider>()
             .AddScoped<ErrorHandlingMiddleware>()

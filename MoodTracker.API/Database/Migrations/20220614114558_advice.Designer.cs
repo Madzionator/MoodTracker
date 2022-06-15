@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoodTracker.API.Database;
 
@@ -11,9 +12,10 @@ using MoodTracker.API.Database;
 namespace MoodTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220614114558_advice")]
+    partial class advice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,73 @@ namespace MoodTracker.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("MoodTracker.API.Database.Models.Advice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
+
+                    b.ToTable("Advices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Description = "Porada do pracy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            Description = "Porada do hobby"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Description = "Porada do rodziny"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 4,
+                            Description = "Porada do przyjaciół"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            Description = "Porada do lifestyle"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 6,
+                            Description = "Porada do samorealizacji"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 7,
+                            Description = "Porada do zdrowia"
+                        });
+                });
 
             modelBuilder.Entity("MoodTracker.API.Database.Models.Follow", b =>
                 {
