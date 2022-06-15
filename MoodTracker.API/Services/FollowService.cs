@@ -107,10 +107,12 @@ internal class FollowService : IFollowService
         _context.SaveChanges();
     }
 
-    public FollowStatusDto GetStatus(int userId)
+    public FollowStatusDto GetInfo(int userId)
     {
         var myId = _userInfoProvider.Id;
         var status = new FollowStatusDto();
+
+        status.bio = _context.Users.Where(x => x.Id == userId).Select(x => x.Bio).FirstOrDefault();
 
         status.IsFollower = _context.Follows
             .Count(x => x.FollowerId == userId &&

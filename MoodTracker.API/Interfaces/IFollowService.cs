@@ -9,5 +9,5 @@ public interface IFollowService
     void RemoveFollow(int userId);
     void RevokeFollower(int userId);
     void AcceptFollow(int userId);
-    FollowStatusDto GetStatus(int userId);
+    FollowStatusDto GetInfo(int userId);
 }

@@ -62,10 +62,10 @@ namespace MoodTracker.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("status/{userId}")] 
-        public IActionResult GetStates([FromRoute] int userId)
+        [HttpGet("info/{userId}")] 
+        public IActionResult GetInfo([FromRoute] int userId)
         {
-            var states = _followService.GetStatus(userId);
+            var states = _followService.GetInfo(userId);
             return Ok(states);
         }
     }
