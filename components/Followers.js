@@ -4,12 +4,15 @@ import { LinearGradient } from 'expo-linear-gradient'
 import Theme from '../Theme'
 import Btn from './Btn'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserView from './UserView'
 
 const Followers = () => {
   const [token, setToken] = useState()
   const [search, setSearch] = useState()
   const [text, setText] = useState('')
   const [selected, setSelected] = useState()
+  const [selectedName, setSelectedName] = useState()
+  const [modalOpen,setModalOpen] = useState(false)
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('MoodTrackerToken')
@@ -56,8 +59,9 @@ const Followers = () => {
 
 
         <ScrollView style={{width:'100%', position:'absolute', top:200}}> 
-          {search?.map(item=><TouchableOpacity style={styles.userCard} onPress={()=>setSelected(item.id)}><Text>{item.userName}</Text></TouchableOpacity>)}
+          {search?.map(item=><TouchableOpacity style={styles.userCard} onPress={()=>{setSelected(item.id); setSelectedName(item.userName); setModalOpen(true)}}><Text>{item.userName}</Text></TouchableOpacity>)}
         </ScrollView>
+        <UserView userId={selected} userName={selectedName} modalOpen={modalOpen} setModalOpen={setModalOpen}/>
       </LinearGradient>
   )
 }
