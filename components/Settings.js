@@ -122,7 +122,6 @@ const Settings = (props) => {
   //Wymusza reload
   useEffect(()=>setEdit(true),[edit])
   return (
-    <ScrollView style = {{flex:1,}}>
       <LinearGradient
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
@@ -147,7 +146,6 @@ const Settings = (props) => {
         />
         <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{createData(), handlePush(), handlePrivatePush()}/**Dodać pusha do api */}/>
       </LinearGradient>
-    </ScrollView>
   )
 }
 
@@ -160,12 +158,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingTop:40,
     marginBottom:0,
-    paddingBottom:0
+    paddingBottom:0,
+    height:'100%'
   },
   bio:{
     backgroundColor:'white',
     width:'70%',
-    padding:10
+    padding:10,
+    marginTop:10
   },
   btn:{
     backgroundColor:Theme.background,

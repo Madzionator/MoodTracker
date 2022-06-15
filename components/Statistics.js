@@ -7,6 +7,8 @@ import Btn from './Btn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import Kategorie from '../Kategorie'
+
+
 const mockData = [
   {
     title:'Praca',
@@ -103,6 +105,7 @@ const Statistics = (props) => {
       <ScrollView style = {styles.scroll}>
         {charts}
       </ScrollView>
+      
     </View>
   )
 }

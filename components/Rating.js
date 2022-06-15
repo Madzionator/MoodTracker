@@ -7,8 +7,13 @@ import Btn from './Btn'
 import Theme from '../Theme'
 import Kategorie from '../Kategorie'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Accept from './Accept';
 
 const Rating = (props) => {
+  
+  const[userName, setUserName] = useState()
+  const [userId, setUserId] = useState()
+  const [modalVisible, setModalVisible] = useState(false)
   const now = new Date();
   const yesterday = new Date(now-86400000);
   const twoDays = new Date(now - 172800000);
@@ -16,6 +21,7 @@ const Rating = (props) => {
   const [value,setValue] = useState('1')
   const [date,setDate] = useState(now)
   const [selected, setSelected] = useState(null)
+  const [bio,setBio] = useState()
 
 
   
@@ -77,7 +83,7 @@ const Rating = (props) => {
 
 
     const handlePull = ()=>{
-      getToken()
+      getToken().then(
       fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
        method: 'GET',    
        headers: {
@@ -88,24 +94,60 @@ const Rating = (props) => {
     },
         }).then((response) => response.status != 200 ? null : response.json())
         .then((result) => {
-          console.log(result)
+          //console.log(result)
           setSelected(result);
           //setEdit(!edit)
         })
         .catch(error => {console.error(error)})
-      };
+      )};
 
-
-
+    const getWaiting =()=>{
+      getToken().then(
+      fetch("https://moodtrackerapi.azurewebsites.net/Follow?list=Waiting", {
+       method: 'GET',    
+       headers: {
+         Accept: '*/*',
+         AcceptEncoding:'gzip, deflate, br',
+         Authorization: `Bearer ${token}` ,
+         Connection: 'keep-alive'
+    },
+        }).then((response) => response.status != 200 ? null : response.json())
+        .then((result) => {
+          console.log("Oczekujace:")
+          console.log(result)
+          if (result != null) {
+            setUserName(result[0].userName)
+            setUserId(result[0].id)
+            console.log(result[0].id)
+            fetch(`https://moodtrackerapi.azurewebsites.net/Follow/info/${result[0].id}`, {
+              method: 'GET',
+              headers: {
+                Accept: '*/*',
+                AcceptEncoding: 'gzip, deflate, br',
+                Authorization: `Bearer ${token}`,
+                Connection: 'keep-alive'
+              },
+            }).then((response) => response.status != 200 ? null : response.json())
+              .then((result) => {
+                setBio(result.bio)
+              })
+              .catch(error => { console.error(error) })
+            
+            setModalVisible(true)
+          }
+        })
+        .catch(error => {console.error(error)})
+      );
+      
+    };
 
   const sendAsnwers=(e)=>{
     setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
-    getToken();
-    handlePost(e);
+    getToken().then( handlePost(e))
   }
   //
-  //useEffect(()=>{handlePull()},[selected])
-  useEffect(()=>{if(selected===null){handlePull()}})
+ // useEffect(()=>{getWaiting()},[])
+  useEffect(()=>{if(selected===null){handlePull(), getWaiting()}})
   return (
     
       <LinearGradient
@@ -129,6 +171,7 @@ const Rating = (props) => {
         <Btn style = {[styles.btn, Theme.shadow]} title = 'Prześlij Odpowiedzi' onPress={sendAsnwers}/>
         </View>
         </ScrollView>
+        <Accept modalVisible={modalVisible} setModalVisible={setModalVisible} userName={userName} userId={userId} bio = {bio}/>
       </LinearGradient>
     
 
