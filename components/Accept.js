@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Btn from "./Btn";
 import Theme from "../Theme";
 import {Modal, StyleSheet, Text, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 
 const Accept = (props) => {
@@ -30,17 +29,18 @@ const Accept = (props) => {
       .catch(error => {console.error(error)})
     };
   const handleAccept = ()=>{
-    getToken().then(
+    getToken()
       handlePush('Accept')
-    )
+    
     props.setModalVisible(!props.modalVisible)
   };
   const handleDeny = ()=>{
-    getToken().then(
-      handlePush('Reject')
-    )
+    getToken()
+    handlePush('Reject')
+    
       props.setModalVisible(!props.modalVisible)
   };
+  useEffect(()=>getToken(),[])
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -57,13 +57,13 @@ const Accept = (props) => {
             <Text>O {props.userName}:</Text>
             <View style = {{
               backgroundColor:'rgba(31, 181, 152,0.3)', 
-              width:'90%',  
+              minWidth:'90%',  
               minHeight:200,
               borderRadius:5, 
               alignSelf:'center', 
               padding:15
             }}>
-              <Text>{props.bio}</Text>
+              <Text>{props.bio? props.bio: 'Brak opisu'}</Text>
             </View>
             <View style={styles.buttonView}>
                 <Btn onPress={handleDeny}
