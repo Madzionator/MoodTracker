@@ -22,10 +22,15 @@ internal class AdviceService : IAdviceService
 
     public AdviceDto GetAdvice(int CategoryId)
     {
-        return new AdviceDto() { CategoryId = CategoryId,
-             Advice = _context.Advices
-            .Where(a => a.CategoryId == CategoryId)
-            .Select(ad => ad.Description).Single()
-        };
+        Random rng = new Random();
+        var advices = _context.Advices
+            .Where(x => x.CategoryId == CategoryId)
+            .Select(x => x.Description)
+            .ToList();
+
+        return new AdviceDto() { 
+            CategoryId = CategoryId,
+            Advice = advices[rng.Next(advices.Count())]
+            };
     }
 }

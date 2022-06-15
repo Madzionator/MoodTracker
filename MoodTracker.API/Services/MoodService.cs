@@ -129,6 +129,7 @@ internal class MoodService : IMoodService
         {
             var cmoods = _context.Moods
                 .Where(x => x.UserId == userId && x.CategoryId == val.CategoryId)
+                .OrderByDescending(x=>x.DateTime)
                 .Take(7)
                 .Select(v => v.Value)
                 .ToList();
