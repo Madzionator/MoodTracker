@@ -34,7 +34,7 @@ const handlePull = ()=>{
     }).then((response) => response.status != 200 ? null : response.json())
     .then((result) => {
       setData(result)
-      //console.log(result)
+      console.log(result)
       
     })
     .catch(error => {console.error(error)})
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   listItem:{
     backgroundColor:Theme.lightBackground, 
     width:'90%', 
+    //height:400,
     alignSelf:'center', 
     borderRadius:5,
     padding:5,
