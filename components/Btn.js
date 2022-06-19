@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
   text:{
     color: 'white',
     fontSize:20,
-    fontWeight: '700',
-    fontFamily:'cursive',
-    textAlign: 'center',
+    //fontWeight: '700',
+   // fontFamily:'cursive',
+   // textAlign: 'center',
   }
 });
 
