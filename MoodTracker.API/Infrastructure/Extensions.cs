@@ -55,7 +55,7 @@ public static class Extensions
     public static IServiceCollection AddControllersWithValidations(this IServiceCollection services)
     {
         services
-            .AddControllers()
+            .AddControllersWithViews()
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
             .AddFluentValidation(fv =>
@@ -63,6 +63,8 @@ public static class Extensions
                 fv.RegisterValidatorsFromAssemblyContaining<Program>();
                 fv.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
             });
+
+        services.AddRazorPages();
 
         ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pl");
 

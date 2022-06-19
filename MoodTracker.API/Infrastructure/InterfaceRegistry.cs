@@ -16,6 +16,7 @@ public static class InterfaceRegistry
             .AddScoped<IUserCategoryService, UserCategoryService>()
             .AddScoped<IUserInfoProvider, UserInfoProvider>()
             .AddScoped<ErrorHandlingMiddleware>()
+            .AddScoped<IMailer, Mailer>()
             .AddSingleton<IAuthManager, AuthManager>()
             .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     }
