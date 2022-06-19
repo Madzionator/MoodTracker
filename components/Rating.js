@@ -22,6 +22,7 @@ const Rating = (props) => {
   const [date,setDate] = useState(now)
   const [selected, setSelected] = useState(null)
   const [bio,setBio] = useState()
+  const [reset,setReset] = useState(false)
 
 
   
@@ -45,14 +46,14 @@ const Rating = (props) => {
         "value":answer[i]
       }) : null
     }
-    console.log(data);
+    //console.log(data);
   }
   const chandleChange = (value) =>{
     value == '1' ? setDate(now) : value == '2' ? setDate(yesterday) : setDate(twoDays)
     setValue(value)
   }
   const ratingList =selected?.map((item)=>
-    <RatingComp title = {Kategorie[item-1]} id = {item} onPress = {setAnswer}/>
+    <RatingComp title = {Kategorie[item-1]} id = {item} onPress = {setAnswer} reset={reset}/>
   )
   const getToken = async () => {
     try {
@@ -77,13 +78,24 @@ const Rating = (props) => {
         'Content-Type': 'application/json'
    },
      body: JSON.stringify({"dateTime":date,  "values":data}),
-      }).then((response) => console.log(response.status))
+      }).then((response) => {
+        if(response.status ==204){
+          alert("Pomyślnie przesłano!")
+          setReset(!reset)
+        }
+        else if(response.status ==200){
+          alert(response.body)
+        }
+        else{
+          alert("Wystąpił nieznany błąd")
+        }
+      })
       .catch(error => {console.error(error)})
     };
 
 
     const handlePull = ()=>{
-      getToken().then(
+      getToken()
       fetch("https://moodtrackerapi.azurewebsites.net/UserCategory", {
        method: 'GET',    
        headers: {
@@ -99,10 +111,10 @@ const Rating = (props) => {
           //setEdit(!edit)
         })
         .catch(error => {console.error(error)})
-      )};
+      };
 
     const getWaiting =()=>{
-      getToken().then(
+      getToken();
       fetch("https://moodtrackerapi.azurewebsites.net/Follow?list=Waiting", {
        method: 'GET',    
        headers: {
@@ -137,13 +149,12 @@ const Rating = (props) => {
           }
         })
         .catch(error => {console.error(error)})
-      );
-      
     };
 
   const sendAsnwers=(e)=>{
     setAnswer((prevState)=>{setAnswer({...prevState, date:date})});
-    getToken().then( handlePost(e))
+    getToken()
+    handlePost(e)
   }
   //
  // useEffect(()=>{getWaiting()},[])
@@ -154,8 +165,8 @@ const Rating = (props) => {
       colors={[Theme.background, Theme.backgroundGradient]}
       style={styles.container}
       >
-        <ScrollView style = {{flex:1, width:'100%', height:'100%'}}>
-        <View style = {{width:'80%', marginHorizontal:'10%'}}>
+        <ScrollView style = {{ }}>
+        <View style = {{width:'80%',height:'100%', marginHorizontal:'10%'}}>
         {ratingList}
         <RNPickerSelect
               value={value}

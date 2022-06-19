@@ -6,7 +6,7 @@ import Btn from './Btn';
 import Theme from '../Theme'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import * as Linking from 'expo-linking';
 
 export default function Login(props) {
   const [login,setLogin] = useState("")
@@ -66,6 +66,7 @@ export default function Login(props) {
           secureTextEntry={true}
         />
         <Btn title = 'Zaloguj' style={styles.btn} onPress = {handleLogin/* ()=>props.setScene('Rating')*/}/>
+        <Btn title = 'Resetuj hasło' style={styles.btn} onPress = {()=>Linking.openURL('https://moodtrackerapi.azurewebsites.net/Account/ForgotPassword')}/>
       </View>
     </LinearGradient>
   );
@@ -75,8 +76,10 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     alignItems: 'center',
+    padding:20,
     paddingTop:30,
-    justifyContent:'space-around'
+    justifyContent:'space-around',
+    width:'100%'
   },
   input: {
     backgroundColor: 'white',
@@ -104,12 +107,14 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   btn:{
-    marginHorizontal:'auto',
+    //marginHorizontal:'auto',
     //alignItems: 'center',
-    marginVertical:'auto',
-    marginLeft:'15%',
+    //marginVertical:'auto',
+   // marginLeft:'15%',
+    alignSelf:'center',
     textAlign: 'center',
     fontSize: 20,
+    minWidth:'50%',
     backgroundColor:Theme.background,
   }
 });

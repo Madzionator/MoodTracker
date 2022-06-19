@@ -13,7 +13,7 @@ import News from './components/News';
 import Menu from './components/Menu';
 
 export default function App() {
-  const [scene, setScene] = useState('Login')
+  const [scene, setScene] = useState('Home')
   return ( 
     scene == 'Home' ? <Home setScene = {setScene}/> :
     scene == 'Login' ? <Login setScene = {setScene}/> : 

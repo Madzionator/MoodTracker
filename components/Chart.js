@@ -72,7 +72,7 @@ const Chart = (props) => {
         height={220} // from react-native
         width={props.width==null?0.9*Dimensions.get("window").width:props.width}
         yAxisInterval={1} // optional, defaults to 1
-        formatYLabel={(y)=>y<0? 'BD':y}
+        formatYLabel={(y)=>y==-1? 'BD': y==0?'😭':y==1?'😕' : y==2? '😐': y==3?'😊' :y==4?'😍':''}
         chartConfig={{
           backgroundColor: Theme.background,
           backgroundGradientFrom: Theme.background,
@@ -91,6 +91,7 @@ const Chart = (props) => {
           
         }}
         bezier
+        
         style={{
           marginVertical: 8,
           marginHorizontal:'5%',
