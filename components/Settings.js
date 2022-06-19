@@ -145,6 +145,7 @@ const Settings = (props) => {
         numberOfLines={8}
         />
         <Btn title = 'Zapisz' style = {styles.btn} onPress = {()=>{createData(), handlePush(), handlePrivatePush()}/**Dodać pusha do api */}/>
+        <Btn title = 'Wyloguj' style = {styles.btn} onPress = {()=>{props.setScene('Home')}/**Dodać pusha do api */}/>
       </LinearGradient>
   )
 }

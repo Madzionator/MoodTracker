@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontSize:20,
     //fontWeight: '700',
    // fontFamily:'cursive',
-   // textAlign: 'center',
+   textAlign: 'center',
   }
 });
 
