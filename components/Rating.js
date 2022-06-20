@@ -23,7 +23,7 @@ const Rating = (props) => {
   const [selected, setSelected] = useState(null)
   const [bio,setBio] = useState()
   const [reset,setReset] = useState(false)
-
+  const [code, setCode] = useState()
 
   
   const [answer, setAnswer] = useState({
@@ -78,16 +78,28 @@ const Rating = (props) => {
         'Content-Type': 'application/json'
    },
      body: JSON.stringify({"dateTime":date,  "values":data}),
-      }).then((response) => {
-        if(response.status ==204){
+      })/*.then((response) => {if( response.status != 200){setCode (response.status); return null} else{setCode(response.status) ; return response.json()}} )
+      .then((result) => {
+        if(code ==204){
           alert("Pomyślnie przesłano!")
           setReset(!reset)
         }
-        else if(response.status ==200){
-          alert(response.body)
+        else if(code ==200){
+         alert(result.advice)
+         
         }
-        else{
+        if(code !=200 && code != 204){
           alert("Wystąpił nieznany błąd")
+        }
+      })
+      */
+      .then((response) => {
+        if( response.status == 204){alert("Pomyślnie przesłano!");
+          setReset(!reset); return null} if(response.status ===200){return response.json(); setReset(!reset)} else{alert("Wystąpił nieznany błąd"); return null; }} )
+      .then((result) => {
+        if(result!=null){
+         alert(result.advice)
+         
         }
       })
       .catch(error => {console.error(error)})
