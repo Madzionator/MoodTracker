@@ -109,7 +109,7 @@ internal class MoodService : IMoodService
         var followersdto = new List<MoodFollowedDto>();
 
         var followerList = _context.Follows
-            .Where(x => x.FollowerId == userId && x.IsAccepted == true)
+            .Where(x => x.FollowerId == userId && x.IsAccepted == true && !x.FollowedUser.IsPrivate)
             .Select(f => f.FollowedUserId)
             .ToList();
 
